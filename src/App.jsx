@@ -7,6 +7,11 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Home from './pages/Home';
+import DeliveryCertificate from './pages/DeliveryCertificate';
+import InstalledComponents from './pages/InstalledComponents';
+import SpecialPermits from './pages/SpecialPermits';
+import MaintenanceProcedures from './pages/MaintenanceProcedures';
+import Configuration from './pages/Configuration';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -44,6 +49,11 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/Home" element={<Home />} />
+      <Route path="/DeliveryCertificate" element={<DeliveryCertificate />} />
+      <Route path="/InstalledComponents" element={<InstalledComponents />} />
+      <Route path="/SpecialPermits" element={<SpecialPermits />} />
+      <Route path="/MaintenanceProcedures" element={<MaintenanceProcedures />} />
+      <Route path="/Configuration" element={<Configuration />} />
       {Object.entries(Pages).map(([path, Page]) => (
         <Route
           key={path}

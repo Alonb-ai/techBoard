@@ -45,44 +45,54 @@ export default function Home() {
 
       {/* Features Section */}
       <div className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              icon: ClipboardList,
-              title: "ניהול תקלות",
-              description: "רישום ומעקב אחר כל תקלה בצורה מסודרת ומקצועית"
-            },
-            {
-              icon: BarChart3,
-              title: "דשבורדים חכמים",
-              description: "תצוגה חזותית של סטטוס כל מטוס ונתונים סטטיסטיים"
-            },
-            {
-              icon: Wrench,
-              title: "מעקב טכנאים",
-              description: "ניהול משימות וסטטוס עבודה של צוות הטכנאים"
-            },
-            {
-              icon: Shield,
-              title: "בטיחות ואמינות",
-              description: "שמירה על רמת בטיחות גבוהה ותיעוד מלא"
-            }
-          ].map((feature, idx) => (
-            <div
-              key={idx}
-              className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group hover:scale-105"
-            >
-              <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <feature.icon className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {feature.description}
-              </p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Link to="/FaultBoard" className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group hover:scale-105">
+            <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <ClipboardList className="w-7 h-7 text-white" />
             </div>
-          ))}
+            <h3 className="text-xl font-bold text-gray-900 mb-3">בורד תקלות</h3>
+            <p className="text-gray-600 leading-relaxed">רישום ומעקב אחר תקלות במטוסים</p>
+          </Link>
+
+          <Link to="/DeliveryCertificate" className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group hover:scale-105">
+            <div className="w-14 h-14 bg-gradient-to-br from-green-600 to-green-800 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Shield className="w-7 h-7 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">תעודת מסירה</h3>
+            <p className="text-gray-600 leading-relaxed">Delivery Certificate</p>
+          </Link>
+
+          <Link to="/InstalledComponents" className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group hover:scale-105">
+            <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Wrench className="w-7 h-7 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">רכיבים מותקנים</h3>
+            <p className="text-gray-600 leading-relaxed">Installed Components</p>
+          </Link>
+
+          <Link to="/SpecialPermits" className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group hover:scale-105">
+            <div className="w-14 h-14 bg-gradient-to-br from-pink-600 to-pink-800 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Shield className="w-7 h-7 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">היתרים מיוחדים</h3>
+            <p className="text-gray-600 leading-relaxed">Special Permits</p>
+          </Link>
+
+          <Link to="/MaintenanceProcedures" className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group hover:scale-105">
+            <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Wrench className="w-7 h-7 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">תקלות ותחזוקה</h3>
+            <p className="text-gray-600 leading-relaxed">Failures & Maintenance</p>
+          </Link>
+
+          <Link to="/Configuration" className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group hover:scale-105">
+            <div className="w-14 h-14 bg-gradient-to-br from-slate-600 to-slate-800 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <BarChart3 className="w-7 h-7 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">תצורה</h3>
+            <p className="text-gray-600 leading-relaxed">Configuration Tracking</p>
+          </Link>
         </div>
       </div>
 
