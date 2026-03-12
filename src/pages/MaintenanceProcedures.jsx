@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Save } from "lucide-react";
+import { Save, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function MaintenanceProcedures() {
   const [procedures, setProcedures] = useState([]);
@@ -14,6 +15,9 @@ export default function MaintenanceProcedures() {
 
   useEffect(() => {
     loadProcedures();
+    const urlParams = new URLSearchParams(window.location.search);
+    const tail = urlParams.get('tail');
+    if (tail) setSelectedTail(tail);
   }, []);
 
   useEffect(() => {
@@ -76,6 +80,11 @@ export default function MaintenanceProcedures() {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
+              <Link to="/UAVTailNumber">
+                <Button variant="outline" size="icon" className="ml-2">
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
               <div className="w-12 h-12 bg-blue-700 rounded-xl flex items-center justify-center">
                 <span className="text-white text-2xl">🔧</span>
               </div>

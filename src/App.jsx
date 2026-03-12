@@ -7,6 +7,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Home from './pages/Home';
+import UAVTailNumber from './pages/UAVTailNumber';
 import DeliveryCertificate from './pages/DeliveryCertificate';
 import InstalledComponents from './pages/InstalledComponents';
 import SpecialPermits from './pages/SpecialPermits';
@@ -49,6 +50,7 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/Home" element={<Home />} />
+      <Route path="/UAVTailNumber" element={<UAVTailNumber />} />
       <Route path="/DeliveryCertificate" element={<DeliveryCertificate />} />
       <Route path="/InstalledComponents" element={<InstalledComponents />} />
       <Route path="/SpecialPermits" element={<SpecialPermits />} />

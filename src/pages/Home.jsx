@@ -27,10 +27,16 @@ export default function Home() {
             </div>
 
             {/* CTA */}
-            <div className="pt-6">
-              <Link to="/FaultBoard">
+            <div className="pt-6 flex gap-4 justify-center">
+              <Link to="/UAVTailNumber">
                 <Button className="bg-blue-700 hover:bg-blue-800 text-white px-10 py-7 text-lg rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 gap-3 group">
-                  כניסה לבורד תקלות
+                  רשימת מטוסים
+                  <ArrowLeft className="w-5 h-5 group-hover:translate-x-[-4px] transition-transform" />
+                </Button>
+              </Link>
+              <Link to="/FaultBoard">
+                <Button className="bg-slate-700 hover:bg-slate-800 text-white px-10 py-7 text-lg rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 gap-3 group">
+                  בורד תקלות
                   <ArrowLeft className="w-5 h-5 group-hover:translate-x-[-4px] transition-transform" />
                 </Button>
               </Link>

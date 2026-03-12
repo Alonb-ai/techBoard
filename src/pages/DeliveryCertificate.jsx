@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Plus, Save, X } from "lucide-react";
+import { Plus, Save, X, ArrowRight } from "lucide-react";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 export default function DeliveryCertificate() {
   const [certificates, setCertificates] = useState([]);
@@ -15,6 +16,12 @@ export default function DeliveryCertificate() {
 
   useEffect(() => {
     loadCertificates();
+    const urlParams = new URLSearchParams(window.location.search);
+    const tail = urlParams.get('tail');
+    if (tail) {
+      setSelectedTail(tail);
+      loadCertificate(tail);
+    }
   }, []);
 
   const loadCertificates = async () => {
@@ -56,6 +63,11 @@ export default function DeliveryCertificate() {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
+              <Link to="/UAVTailNumber">
+                <Button variant="outline" size="icon" className="ml-2">
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
               <div className="w-12 h-12 bg-blue-700 rounded-xl flex items-center justify-center">
                 <span className="text-white text-2xl">✈</span>
               </div>
