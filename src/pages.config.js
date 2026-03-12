@@ -47,8 +47,14 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import FaultBoard from './pages/FaultBoard';
 
-export const pagesConfig = {
-	Pages: {}
+
+export const PAGES = {
+    "FaultBoard": FaultBoard,
 }
 
+export const pagesConfig = {
+    mainPage: "FaultBoard",
+    Pages: PAGES,
+};
