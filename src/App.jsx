@@ -2,11 +2,10 @@ import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import { pagesConfig } from './pages.config'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import Home from './pages/Home';
 import UAVTailNumber from './pages/UAVTailNumber';
 import DeliveryCertificate from './pages/DeliveryCertificate';
 import InstalledComponents from './pages/InstalledComponents';
@@ -48,8 +47,7 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/Home" element={<Home />} />
+      <Route path="/" element={<Navigate to="/UAVTailNumber" replace />} />
       <Route path="/UAVTailNumber" element={<UAVTailNumber />} />
       <Route path="/DeliveryCertificate" element={<DeliveryCertificate />} />
       <Route path="/InstalledComponents" element={<InstalledComponents />} />
