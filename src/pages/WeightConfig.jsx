@@ -35,7 +35,7 @@ export default function WeightConfig() {
   }, []);
 
   useEffect(() => {
-    if (selectedTail && configs.length > 0) {
+    if (selectedTail) {
       const existing = configs.find(c => c.aircraft_tail === selectedTail);
       if (existing) {
         setFormData({ ...existing });
