@@ -52,10 +52,14 @@ export default function DeliveryCertificate() {
 
   const handleSave = async () => {
     setLoading(true);
-    if (formData.id) {
-      await base44.entities.DeliveryCertificate.update(formData.id, formData);
+    const dataToSave = { ...formData };
+    if (!dataToSave.pre_flight_date) {
+      dataToSave.pre_flight_date = new Date().toISOString().split('T')[0];
+    }
+    if (dataToSave.id) {
+      await base44.entities.DeliveryCertificate.update(dataToSave.id, dataToSave);
     } else {
-      await base44.entities.DeliveryCertificate.create(formData);
+      await base44.entities.DeliveryCertificate.create(dataToSave);
     }
     await loadCertificates();
     setFormData(null);
