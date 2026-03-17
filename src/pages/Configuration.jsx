@@ -5,18 +5,30 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Save, ArrowRight, Trash2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Link, useNavigate } from "react-router-dom";
+
+const TRACKING_COMPONENTS = [
+  { key: "avionics_box", label: "Avionics Box" },
+  { key: "av_mcu", label: "AV MCU" },
+  { key: "fpga", label: "FPGA" },
+  { key: "pilot_version", label: "Pilot Version" },
+  { key: "params_file", label: "Parameters File" },
+  { key: "fmc", label: "FMC" },
+  { key: "ardu_params", label: "Ardu Params" },
+];
+
+const MCU_COMPONENTS = [
+  { key: "psb", label: "PSB" },
+  { key: "hpsb", label: "HPSB" },
+];
 
 export default function Configuration() {
   const navigate = useNavigate();
   const [configs, setConfigs] = useState([]);
   const [allTails, setAllTails] = useState([]);
   const [selectedTail, setSelectedTail] = useState("");
-  const [filteredConfigs, setFilteredConfigs] = useState([]);
-  const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [editRows, setEditRows] = useState({});
 
   useEffect(() => {
     loadData();
@@ -24,18 +36,6 @@ export default function Configuration() {
     const tail = urlParams.get('tail');
     if (tail) setSelectedTail(tail);
   }, []);
-
-  useEffect(() => {
-    if (selectedTail) {
-      setFilteredConfigs(
-        configs
-          .filter(c => c.aircraft_tail === selectedTail)
-          .sort((a, b) => (b.mcu_date || "").localeCompare(a.mcu_date || ""))
-      );
-    } else {
-      setFilteredConfigs([]);
-    }
-  }, [selectedTail, configs]);
 
   const loadData = async () => {
     const [configData, certs, comps, permits, procs] = await Promise.all([
@@ -56,38 +56,176 @@ export default function Configuration() {
     setAllTails([...tails].filter(Boolean).sort());
   };
 
-  const handleNewConfig = () => {
-    setFormData({
-      aircraft_tail: selectedTail,
-      mcu_date: new Date().toISOString().split('T')[0],
+  const getComponentRows = (componentKey) => {
+    return configs
+      .filter(c => c.aircraft_tail === selectedTail && c.component === componentKey)
+      .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  };
+
+  const handleAdd = (componentKey) => {
+    const tempId = `new_${componentKey}_${Date.now()}`;
+    setEditRows({
+      ...editRows,
+      [tempId]: {
+        aircraft_tail: selectedTail,
+        component: componentKey,
+        version: "",
+        date: new Date().toISOString().split('T')[0],
+        technician: "",
+      }
     });
   };
 
-  const handleSelectConfig = (config) => {
-    setFormData({ ...config });
+  const handleEditChange = (tempId, field, value) => {
+    setEditRows({
+      ...editRows,
+      [tempId]: { ...editRows[tempId], [field]: value }
+    });
   };
 
-  const handleBackToList = () => {
-    setFormData(null);
-  };
-
-  const handleSave = async () => {
+  const handleSaveNew = async (tempId) => {
     setLoading(true);
-    if (formData.id) {
-      await base44.entities.Configuration.update(formData.id, formData);
-    } else {
-      await base44.entities.Configuration.create(formData);
-    }
+    const data = editRows[tempId];
+    await base44.entities.Configuration.create(data);
+    const newEditRows = { ...editRows };
+    delete newEditRows[tempId];
+    setEditRows(newEditRows);
     await loadData();
-    setFormData(null);
     setLoading(false);
   };
 
-  const handleDelete = async (config) => {
-    if (config.id) {
-      await base44.entities.Configuration.delete(config.id);
-      await loadData();
-    }
+  const handleCancelNew = (tempId) => {
+    const newEditRows = { ...editRows };
+    delete newEditRows[tempId];
+    setEditRows(newEditRows);
+  };
+
+  const handleDelete = async (id) => {
+    setLoading(true);
+    await base44.entities.Configuration.delete(id);
+    await loadData();
+    setLoading(false);
+  };
+
+  const getNewRowsForComponent = (componentKey) => {
+    return Object.entries(editRows).filter(([key, val]) => val.component === componentKey);
+  };
+
+  const renderComponentSection = (comp, bgColor, headerBg) => {
+    const rows = getComponentRows(comp.key);
+    const newRows = getNewRowsForComponent(comp.key);
+
+    return (
+      <div key={comp.key} className="mb-4">
+        <div className={`flex items-center justify-between ${headerBg} px-4 py-2 rounded-t-lg`}>
+          <h3 className="font-bold text-sm">{comp.label}</h3>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => handleAdd(comp.key)}
+            className="h-7 px-2 text-xs gap-1"
+          >
+            <Plus className="w-3 h-3" />
+            הוסף
+          </Button>
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow className={bgColor}>
+              <TableHead className="text-right text-xs">Version</TableHead>
+              <TableHead className="text-right text-xs">Date</TableHead>
+              <TableHead className="text-right text-xs">Technician</TableHead>
+              <TableHead className="w-12"></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell className="text-sm">{row.version || "-"}</TableCell>
+                <TableCell className="text-sm">{row.date ? row.date.split('-').reverse().join('/') : "-"}</TableCell>
+                <TableCell className="text-sm">{row.technician || "-"}</TableCell>
+                <TableCell>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-7 w-7"
+                    onClick={() => handleDelete(row.id)}
+                  >
+                    <Trash2 className="w-3 h-3 text-red-600" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+            {newRows.map(([tempId, data]) => (
+              <TableRow key={tempId} className="bg-yellow-50">
+                <TableCell>
+                  <Input
+                    value={data.version}
+                    onChange={(e) => handleEditChange(tempId, 'version', e.target.value)}
+                    className="h-8 text-xs"
+                    placeholder="גרסה"
+                  />
+                </TableCell>
+                <TableCell>
+                  <div className="relative w-28">
+                    <Input
+                      type="text"
+                      readOnly
+                      value={data.date ? data.date.split('-').reverse().join('/') : ""}
+                      placeholder="תאריך"
+                      className="h-8 text-xs cursor-pointer"
+                      onClick={(e) => e.target.nextElementSibling.showPicker()}
+                    />
+                    <input
+                      type="date"
+                      value={data.date || ""}
+                      onChange={(e) => handleEditChange(tempId, 'date', e.target.value)}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Input
+                    value={data.technician}
+                    onChange={(e) => handleEditChange(tempId, 'technician', e.target.value)}
+                    className="h-8 text-xs"
+                    placeholder="טכנאי"
+                  />
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-1">
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7"
+                      onClick={() => handleSaveNew(tempId)}
+                      disabled={loading}
+                    >
+                      <Save className="w-3 h-3 text-green-600" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7"
+                      onClick={() => handleCancelNew(tempId)}
+                    >
+                      <Trash2 className="w-3 h-3 text-gray-400" />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+            {rows.length === 0 && newRows.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={4} className="text-center text-xs text-gray-400 py-2">
+                  אין רשומות
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    );
   };
 
   return (
@@ -97,19 +235,13 @@ export default function Configuration() {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              {formData ? (
-                <Button variant="outline" size="icon" className="ml-2" onClick={handleBackToList}>
+              <Link to="/UAVTailNumber">
+                <Button variant="outline" size="icon" className="ml-2">
                   <ArrowRight className="w-4 h-4" />
                 </Button>
-              ) : (
-                <Link to="/UAVTailNumber">
-                  <Button variant="outline" size="icon" className="ml-2">
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              )}
+              </Link>
               <div className="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center">
-                <span className="text-white text-2xl">⚙️</span>
+                <span className="text-white text-2xl">&#9881;</span>
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Configuration Tracking</h1>
@@ -118,219 +250,42 @@ export default function Configuration() {
             </div>
           </div>
 
-          {!formData && (
-            <div className="flex gap-3">
-              <Select value={selectedTail} onValueChange={(val) => {
-                setSelectedTail(val);
-                navigate(`/Configuration?tail=${val}`);
-              }}>
-                <SelectTrigger className="w-60">
-                  <SelectValue placeholder="בחר מספר זנב" />
-                </SelectTrigger>
-                <SelectContent>
-                  {allTails.map(tail => (
-                    <SelectItem key={tail} value={tail}>{tail}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {selectedTail && (
-                <Button onClick={handleNewConfig} className="bg-slate-700 hover:bg-slate-800 gap-2">
-                  <Plus className="w-4 h-4" />
-                  רשומה חדשה
-                </Button>
-              )}
-            </div>
-          )}
+          <div className="flex gap-3">
+            <Select value={selectedTail} onValueChange={(val) => {
+              setSelectedTail(val);
+              navigate(`/Configuration?tail=${val}`);
+            }}>
+              <SelectTrigger className="w-60">
+                <SelectValue placeholder="בחר מספר זנב" />
+              </SelectTrigger>
+              <SelectContent>
+                {allTails.map(tail => (
+                  <SelectItem key={tail} value={tail}>{tail}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        {/* Configs List */}
-        {!formData && selectedTail && (
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-slate-50">
-                  <TableHead className="text-right">תאריך MCU</TableHead>
-                  <TableHead className="text-right">MCU Version</TableHead>
-                  <TableHead className="text-right">MCU HPSB</TableHead>
-                  <TableHead className="text-right">RSB Version</TableHead>
-                  <TableHead className="text-right">טכנאי</TableHead>
-                  <TableHead className="w-16"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredConfigs.map((config) => (
-                  <TableRow
-                    key={config.id}
-                    className="cursor-pointer hover:bg-slate-50"
-                    onClick={() => handleSelectConfig(config)}
-                  >
-                    <TableCell>{config.mcu_date ? config.mcu_date.split('-').reverse().join('/') : "-"}</TableCell>
-                    <TableCell>{config.mcu_version || "-"}</TableCell>
-                    <TableCell>{config.mcu_hpsb || "-"}</TableCell>
-                    <TableCell>{config.rsb_version || "-"}</TableCell>
-                    <TableCell>{config.mcu_technician || "-"}</TableCell>
-                    <TableCell>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={(e) => { e.stopPropagation(); setDeleteConfirm(config); }}
-                      >
-                        <Trash2 className="w-4 h-4 text-red-600" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            {filteredConfigs.length === 0 && (
-              <div className="text-center py-12 text-gray-400">
-                אין רשומות תצורה. לחץ על "רשומה חדשה" כדי להתחיל.
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Config Form */}
-        {formData && (
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-lg font-bold">
-                {formData.id ? `תצורה - ${formData.mcu_date ? formData.mcu_date.split('-').reverse().join('/') : ""}` : "רשומה חדשה"}
-              </h2>
-              <Button onClick={handleSave} disabled={loading} className="bg-blue-600 hover:bg-blue-700 gap-2">
-                <Save className="w-4 h-4" />
-                שמור
-              </Button>
+        {/* Configuration Tracking Section */}
+        {selectedTail && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h2 className="text-lg font-bold mb-4 border-b pb-2">Configuration Tracking</h2>
+              {TRACKING_COMPONENTS.map(comp =>
+                renderComponentSection(comp, "bg-slate-50", "bg-slate-100")
+              )}
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm p-6 space-y-6">
-              {/* Aircraft Tail */}
-              <div>
-                <label className="block text-sm font-medium mb-2">Aircraft Tail Number</label>
-                <Input
-                  value={formData.aircraft_tail || ""}
-                  onChange={(e) => setFormData({...formData, aircraft_tail: e.target.value})}
-                  placeholder="מספר זנב"
-                />
-              </div>
-
-              {/* MCU */}
-              <div className="border rounded-lg p-4 bg-blue-50">
-                <h3 className="font-bold mb-4 text-lg">MCU</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs mb-1">Version</label>
-                    <Input
-                      value={formData.mcu_version || ""}
-                      onChange={(e) => setFormData({...formData, mcu_version: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs mb-1">HPSB</label>
-                    <Input
-                      value={formData.mcu_hpsb || ""}
-                      onChange={(e) => setFormData({...formData, mcu_hpsb: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs mb-1">Date</label>
-                    <div className="relative">
-                      <Input
-                        type="text"
-                        readOnly
-                        value={formData.mcu_date ? formData.mcu_date.split('-').reverse().join('/') : ""}
-                        placeholder="בחר תאריך"
-                        className="cursor-pointer"
-                        onClick={(e) => e.target.nextElementSibling.showPicker()}
-                      />
-                      <input
-                        type="date"
-                        value={formData.mcu_date || ""}
-                        onChange={(e) => setFormData({...formData, mcu_date: e.target.value})}
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs mb-1">Technician</label>
-                    <Input
-                      value={formData.mcu_technician || ""}
-                      onChange={(e) => setFormData({...formData, mcu_technician: e.target.value})}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* RSB */}
-              <div className="border rounded-lg p-4 bg-green-50">
-                <h3 className="font-bold mb-4 text-lg">RSB</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs mb-1">Version</label>
-                    <Input
-                      value={formData.rsb_version || ""}
-                      onChange={(e) => setFormData({...formData, rsb_version: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs mb-1">HPSB</label>
-                    <Input
-                      value={formData.rsb_hpsb || ""}
-                      onChange={(e) => setFormData({...formData, rsb_hpsb: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs mb-1">Date</label>
-                    <div className="relative">
-                      <Input
-                        type="text"
-                        readOnly
-                        value={formData.rsb_date ? formData.rsb_date.split('-').reverse().join('/') : ""}
-                        placeholder="בחר תאריך"
-                        className="cursor-pointer"
-                        onClick={(e) => e.target.nextElementSibling.showPicker()}
-                      />
-                      <input
-                        type="date"
-                        value={formData.rsb_date || ""}
-                        onChange={(e) => setFormData({...formData, rsb_date: e.target.value})}
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs mb-1">Technician</label>
-                    <Input
-                      value={formData.rsb_technician || ""}
-                      onChange={(e) => setFormData({...formData, rsb_technician: e.target.value})}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-center py-6">
-              <Button onClick={handleSave} disabled={loading} className="bg-blue-600 hover:bg-blue-700 gap-2 px-8">
-                <Save className="w-4 h-4" />
-                שמור
-              </Button>
+            {/* MCU Section */}
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h2 className="text-lg font-bold mb-4 border-b pb-2">MCU</h2>
+              {MCU_COMPONENTS.map(comp =>
+                renderComponentSection(comp, "bg-blue-50", "bg-blue-100")
+              )}
             </div>
           </div>
         )}
-
-        {/* Delete Confirmation Dialog */}
-        <Dialog open={!!deleteConfirm} onOpenChange={() => setDeleteConfirm(null)}>
-          <DialogContent dir="rtl">
-            <DialogHeader>
-              <DialogTitle>מחיקת רשומת תצורה</DialogTitle>
-            </DialogHeader>
-            <p className="text-sm text-gray-600">האם אתה בטוח שאתה רוצה למחוק את רשומת התצורה?</p>
-            <DialogFooter className="flex gap-2 justify-end">
-              <Button variant="outline" onClick={() => setDeleteConfirm(null)}>לא</Button>
-              <Button variant="destructive" onClick={() => { handleDelete(deleteConfirm); setDeleteConfirm(null); }}>כן</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
       </div>
     </div>
   );
