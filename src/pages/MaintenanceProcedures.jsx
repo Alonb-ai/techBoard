@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Save, ArrowRight } from "lucide-react";
+import { Save, ArrowRight, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import SignaturePad from "@/components/SignaturePad";
 
@@ -24,29 +24,45 @@ export default function MaintenanceProcedures() {
 
   useEffect(() => {
     if (selectedTail) {
-      const tailProcedures = procedures.filter(p => p.aircraft_tail === selectedTail);
-      const loadedEntries = [];
-      for (let i = 1; i <= 7; i++) {
-        const existing = tailProcedures.find(p => p.entry_number === i);
-        loadedEntries.push(existing || {
-          aircraft_tail: selectedTail,
-          entry_number: i,
-          malfunction_date: "",
-          malfunction_name: "",
-          malfunction_description: "",
-          solution_description: "",
-          solution_date: "",
-          solution_name: "",
-          closing_date: "",
-          closing_name: "",
-          closing_signature: ""
-        });
+      const tailProcedures = procedures
+        .filter(p => p.aircraft_tail === selectedTail)
+        .sort((a, b) => (a.entry_number || 0) - (b.entry_number || 0));
+
+      if (tailProcedures.length > 0) {
+        setEntries(tailProcedures);
+      } else {
+        // Start with 3 empty entries
+        const initial = [];
+        for (let i = 1; i <= 3; i++) {
+          initial.push(createEmptyEntry(selectedTail, i));
+        }
+        setEntries(initial);
       }
-      setEntries(loadedEntries);
     } else {
       setEntries([]);
     }
   }, [selectedTail, procedures]);
+
+  const createEmptyEntry = (tail, num) => ({
+    aircraft_tail: tail,
+    entry_number: num,
+    malfunction_date: "",
+    malfunction_name: "",
+    malfunction_description: "",
+    solution_description: "",
+    solution_date: "",
+    solution_name: "",
+    closing_date: "",
+    closing_name: "",
+    closing_signature: ""
+  });
+
+  const handleAddEntry = () => {
+    const nextNumber = entries.length > 0
+      ? Math.max(...entries.map(e => e.entry_number || 0)) + 1
+      : 1;
+    setEntries([...entries, createEmptyEntry(selectedTail, nextNumber)]);
+  };
 
   const loadProcedures = async () => {
     const data = await base44.entities.MaintenanceProcedure.list();
@@ -129,7 +145,7 @@ export default function MaintenanceProcedures() {
         {selectedTail && selectedTail !== "new" && (
           <div className="space-y-4">
             {entries.map((entry, idx) => (
-              <div key={idx} className="bg-white rounded-lg shadow-sm p-6">
+              <div key={entry.id || `new-${idx}`} className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-bold">Malfunction #{entry.entry_number}</h3>
                   <Button onClick={() => handleSave(idx)} disabled={loading} className="bg-green-600 hover:bg-green-700 gap-2">
@@ -263,6 +279,17 @@ export default function MaintenanceProcedures() {
                 </div>
               </div>
             ))}
+
+            {/* Add Malfunction Button */}
+            <div
+              className="bg-white rounded-lg shadow-sm p-4 border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-50 hover:border-blue-400 transition-colors"
+              onClick={handleAddEntry}
+            >
+              <div className="flex items-center gap-2 text-gray-500">
+                <Plus className="w-5 h-5" />
+                <span className="font-medium">הוסף תקלה חדשה</span>
+              </div>
+            </div>
           </div>
         )}
         <SignaturePad
