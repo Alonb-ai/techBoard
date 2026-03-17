@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Save, ArrowRight } from "lucide-react";
+import { Save, ArrowRight, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const COMPONENTS = [
@@ -18,13 +18,12 @@ const COMPONENTS = [
 
 const CRITERIA = ["pn", "sn", "name", "date"];
 const CRITERIA_LABELS = { pn: "P/N", sn: "S/N", name: "Name", date: "Date" };
-const ASSEMBLING_COUNT = 4;
-
 export default function InstalledComponents() {
   const [components, setComponents] = useState([]);
   const [selectedTail, setSelectedTail] = useState("");
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [assemblingCount, setAssemblingCount] = useState(1);
 
   useEffect(() => {
     loadComponents();
@@ -46,14 +45,21 @@ export default function InstalledComponents() {
 
   const buildFormData = () => {
     const data = {};
+    let maxAssembling = 1;
     COMPONENTS.forEach(comp => {
       const existing = components.find(c => c.aircraft_tail === selectedTail && c.component === comp);
       if (existing) {
         data[comp] = { ...existing };
+        for (let i = 1; i <= 10; i++) {
+          if (existing[`pn_${i}`] || existing[`sn_${i}`] || existing[`name_${i}`] || existing[`date_${i}`]) {
+            maxAssembling = Math.max(maxAssembling, i);
+          }
+        }
       } else {
         data[comp] = { aircraft_tail: selectedTail, component: comp };
       }
     });
+    setAssemblingCount(maxAssembling);
     setFormData(data);
   };
 
@@ -119,10 +125,16 @@ export default function InstalledComponents() {
               </SelectContent>
             </Select>
             {selectedTail && (
-              <Button onClick={handleSave} disabled={loading} className="bg-blue-600 hover:bg-blue-700 gap-2">
-                <Save className="w-4 h-4" />
-                שמור
-              </Button>
+              <>
+                <Button onClick={handleSave} disabled={loading} className="bg-blue-600 hover:bg-blue-700 gap-2">
+                  <Save className="w-4 h-4" />
+                  שמור
+                </Button>
+                <Button onClick={() => setAssemblingCount(prev => prev + 1)} variant="outline" className="gap-2">
+                  <Plus className="w-4 h-4" />
+                  הוסף עמודה
+                </Button>
+              </>
             )}
           </div>
         </div>
@@ -135,7 +147,7 @@ export default function InstalledComponents() {
                 <tr className="bg-blue-50">
                   <th className="border p-2 text-right font-bold w-32">Component</th>
                   <th className="border p-2 text-right font-bold w-16">Criterion</th>
-                  {Array.from({ length: ASSEMBLING_COUNT }, (_, i) => (
+                  {Array.from({ length: assemblingCount }, (_, i) => (
                     <th key={i} className="border p-2 text-center font-bold w-36">
                       Assembling {i + 1}
                     </th>
@@ -154,7 +166,7 @@ export default function InstalledComponents() {
                       <td className="border p-2 text-xs font-medium bg-gray-50">
                         {CRITERIA_LABELS[criterion]}
                       </td>
-                      {Array.from({ length: ASSEMBLING_COUNT }, (_, aIdx) => {
+                      {Array.from({ length: assemblingCount }, (_, aIdx) => {
                         const fieldName = `${criterion}_${aIdx + 1}`;
                         const isDate = criterion === "date";
                         return (
