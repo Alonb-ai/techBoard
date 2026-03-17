@@ -8,6 +8,18 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, Save, ArrowRight, ArrowLeft, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+function calcFlightDuration(toTime, landingTime) {
+  if (!toTime || !landingTime) return null;
+  const [toH, toM] = toTime.split(':').map(Number);
+  const [ldH, ldM] = landingTime.split(':').map(Number);
+  if (isNaN(toH) || isNaN(toM) || isNaN(ldH) || isNaN(ldM)) return null;
+  let diffMin = (ldH * 60 + ldM) - (toH * 60 + toM);
+  if (diffMin < 0) diffMin += 24 * 60;
+  const hours = Math.floor(diffMin / 60);
+  const mins = diffMin % 60;
+  return `${hours}:${String(mins).padStart(2, '0')}`;
+}
+
 export default function DeliveryCertificate() {
   const [certificates, setCertificates] = useState([]);
   const [selectedTail, setSelectedTail] = useState("");
@@ -298,6 +310,11 @@ export default function DeliveryCertificate() {
                     <label className="text-xs">After Flight</label>
                   </div>
                 </div>
+                {calcFlightDuration(formData.flight_1_to_time, formData.flight_1_landing_time) && (
+                  <div className="mt-3 pt-3 border-t text-sm font-semibold">
+                    שעות טיסה #1: {calcFlightDuration(formData.flight_1_to_time, formData.flight_1_landing_time)}
+                  </div>
+                )}
               </div>
 
               {/* Flight 2 Details */}
@@ -357,6 +374,11 @@ export default function DeliveryCertificate() {
                     <label className="text-xs">After Flight</label>
                   </div>
                 </div>
+                {calcFlightDuration(formData.flight_2_to_time, formData.flight_2_landing_time) && (
+                  <div className="mt-3 pt-3 border-t text-sm font-semibold">
+                    שעות טיסה #2: {calcFlightDuration(formData.flight_2_to_time, formData.flight_2_landing_time)}
+                  </div>
+                )}
               </div>
 
               {/* Flight 3 Details */}
@@ -416,6 +438,11 @@ export default function DeliveryCertificate() {
                     <label className="text-xs">After Flight</label>
                   </div>
                 </div>
+                {calcFlightDuration(formData.flight_3_to_time, formData.flight_3_landing_time) && (
+                  <div className="mt-3 pt-3 border-t text-sm font-semibold">
+                    שעות טיסה #3: {calcFlightDuration(formData.flight_3_to_time, formData.flight_3_landing_time)}
+                  </div>
+                )}
               </div>
 
               {/* Flight Hours Summary */}
