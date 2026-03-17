@@ -186,8 +186,8 @@ export default function DeliveryCertificate() {
                 <TableRow className="bg-green-50">
                   <TableHead className="text-right">תאריך</TableHead>
                   <TableHead className="text-right">טכנאי</TableHead>
-                  <TableHead className="text-right">שעות טיסה</TableHead>
                   <TableHead className="text-right">מס׳ טיסות</TableHead>
+                  <TableHead className="text-right">שעות טיסה</TableHead>
                   <TableHead className="text-right">שעות טיסה כוללות</TableHead>
                   <TableHead className="w-16"></TableHead>
                 </TableRow>
@@ -201,12 +201,12 @@ export default function DeliveryCertificate() {
                   >
                     <TableCell>{cert.pre_flight_date ? cert.pre_flight_date.split('-').reverse().join('/') : "ללא תאריך"}</TableCell>
                     <TableCell>{cert.technician_name_pre || "-"}</TableCell>
+                    <TableCell>{[cert.flight_1_to_time, cert.flight_2_to_time, cert.flight_3_to_time].filter(Boolean).length}</TableCell>
                     <TableCell>{(() => {
                       const mins = calcCertFlightMinutes(cert);
                       if (mins === 0) return "-";
                       return `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`;
                     })()}</TableCell>
-                    <TableCell>{[cert.flight_1_to_time, cert.flight_2_to_time, cert.flight_3_to_time].filter(Boolean).length}</TableCell>
                     <TableCell>{(() => {
                       const sameTailCerts = certificates
                         .filter(c => c.aircraft_tail === cert.aircraft_tail)
