@@ -304,7 +304,14 @@ export default function DeliveryCertificate() {
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Technician Name</label>
-                    <Input value={formData.technician_name_pre || ""} onChange={(e) => setFormData({...formData, technician_name_pre: e.target.value})} />
+                    <Input value={formData.technician_name_pre || ""} onChange={(e) => {
+                      const name = e.target.value;
+                      const updates = { technician_name_pre: name };
+                      if (!formData.flight_1_technician_name || formData.flight_1_technician_name === formData.technician_name_pre) updates.flight_1_technician_name = name;
+                      if (!formData.flight_2_technician_name || formData.flight_2_technician_name === formData.technician_name_pre) updates.flight_2_technician_name = name;
+                      if (!formData.flight_3_technician_name || formData.flight_3_technician_name === formData.technician_name_pre) updates.flight_3_technician_name = name;
+                      setFormData({...formData, ...updates});
+                    }} />
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Pre Flight Date</label>
