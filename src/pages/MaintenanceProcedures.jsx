@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Save, ArrowRight, Plus } from "lucide-react";
+import { Save, ArrowRight, Plus, Trash2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
 import SignaturePad from "@/components/SignaturePad";
 
@@ -14,6 +15,7 @@ export default function MaintenanceProcedures() {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [signatureOpen, setSignatureOpen] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
 
   useEffect(() => {
     loadProcedures();
@@ -89,6 +91,20 @@ export default function MaintenanceProcedures() {
     setEntries(updated);
   };
 
+  const handleDelete = async (index) => {
+    const entry = entries[index];
+    setLoading(true);
+    if (entry.id) {
+      await base44.entities.MaintenanceProcedure.delete(entry.id);
+      await loadProcedures();
+    } else {
+      const updated = entries.filter((_, i) => i !== index);
+      setEntries(updated);
+    }
+    setDeleteConfirm(null);
+    setLoading(false);
+  };
+
   const tails = [...new Set(procedures.map(p => p.aircraft_tail))];
 
   return (
@@ -148,10 +164,16 @@ export default function MaintenanceProcedures() {
               <div key={entry.id || `new-${idx}`} className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-bold">Malfunction #{entry.entry_number}</h3>
-                  <Button onClick={() => handleSave(idx)} disabled={loading} className="bg-green-600 hover:bg-green-700 gap-2">
-                    <Save className="w-4 h-4" />
-                    שמור
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button onClick={() => handleSave(idx)} disabled={loading} className="bg-green-600 hover:bg-green-700 gap-2">
+                      <Save className="w-4 h-4" />
+                      שמור
+                    </Button>
+                    <Button variant="outline" onClick={() => setDeleteConfirm(idx)} disabled={loading} className="text-red-600 hover:bg-red-50 gap-2">
+                      <Trash2 className="w-4 h-4" />
+                      מחק
+                    </Button>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
@@ -292,6 +314,31 @@ export default function MaintenanceProcedures() {
             </div>
           </div>
         )}
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={deleteConfirm !== null} onOpenChange={() => setDeleteConfirm(null)}>
+          <DialogContent dir="rtl" className="max-w-sm">
+            <DialogHeader>
+              <DialogTitle>אישור מחיקה</DialogTitle>
+            </DialogHeader>
+            <p className="text-sm text-gray-600">
+              האם אתה בטוח שאתה רוצה למחוק את תקלה #{deleteConfirm !== null ? entries[deleteConfirm]?.entry_number : ""}?
+            </p>
+            <DialogFooter className="flex gap-2 justify-end">
+              <Button variant="outline" onClick={() => setDeleteConfirm(null)}>
+                ביטול
+              </Button>
+              <Button
+                className="bg-red-600 hover:bg-red-700"
+                onClick={() => handleDelete(deleteConfirm)}
+                disabled={loading}
+              >
+                <Trash2 className="w-4 h-4 ml-1" />
+                מחק
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         <SignaturePad
           open={signatureOpen !== null}
           onClose={() => setSignatureOpen(null)}
