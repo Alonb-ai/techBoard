@@ -271,7 +271,6 @@ export default function Configuration() {
         {selectedTail && (
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-sm p-4">
-              <h2 className="text-lg font-bold mb-4 border-b pb-2">Configuration Tracking</h2>
               {TRACKING_COMPONENTS.map(comp =>
                 renderComponentSection(comp, "bg-slate-50", "bg-slate-100")
               )}
