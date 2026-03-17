@@ -133,7 +133,7 @@ export default function Files() {
                   <TableRow key={file.id}>
                     <TableCell className="font-medium">{file.file_name}</TableCell>
                     <TableCell>{file.file_type}</TableCell>
-                    <TableCell>{file.uploaded_at}</TableCell>
+                    <TableCell>{file.uploaded_at ? file.uploaded_at.split('-').reverse().join('/') : ""}</TableCell>
                     <TableCell className="max-w-xs truncate">{file.notes}</TableCell>
                     <TableCell>
                       <div className="flex gap-1">
