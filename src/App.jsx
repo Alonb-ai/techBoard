@@ -12,6 +12,7 @@ import InstalledComponents from './pages/InstalledComponents';
 import SpecialPermits from './pages/SpecialPermits';
 import MaintenanceProcedures from './pages/MaintenanceProcedures';
 import Configuration from './pages/Configuration';
+import Files from './pages/Files';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -54,6 +55,7 @@ const AuthenticatedApp = () => {
       <Route path="/SpecialPermits" element={<SpecialPermits />} />
       <Route path="/MaintenanceProcedures" element={<MaintenanceProcedures />} />
       <Route path="/Configuration" element={<Configuration />} />
+      <Route path="/Files" element={<Files />} />
       {Object.entries(Pages).map(([path, Page]) => (
         <Route
           key={path}
