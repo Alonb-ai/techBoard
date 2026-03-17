@@ -186,7 +186,14 @@ export default function DeliveryCertificate() {
                   >
                     <TableCell>{cert.pre_flight_date ? cert.pre_flight_date.split('-').reverse().join('/') : "ללא תאריך"}</TableCell>
                     <TableCell>{cert.technician_name_pre || "-"}</TableCell>
-                    <TableCell>{cert.overall_flight_hours || "-"}</TableCell>
+                    <TableCell>{(() => {
+                      const otherCerts = certificates.filter(c => c.aircraft_tail === cert.aircraft_tail && c.id !== cert.id);
+                      const prevMin = otherCerts.reduce((sum, c) => sum + calcCertFlightMinutes(c), 0);
+                      const currentMin = calcCertFlightMinutes(cert);
+                      const totalMin = prevMin + currentMin;
+                      if (totalMin === 0) return "-";
+                      return `${Math.floor(totalMin / 60)}:${String(totalMin % 60).padStart(2, '0')}`;
+                    })()}</TableCell>
                     <TableCell>{[cert.flight_1_to_time, cert.flight_2_to_time, cert.flight_3_to_time].filter(Boolean).length}</TableCell>
                     <TableCell>
                       <Button
