@@ -133,8 +133,8 @@ export default function DeliveryCertificate() {
                 <TableRow className="bg-green-50">
                   <TableHead className="text-right">תאריך</TableHead>
                   <TableHead className="text-right">טכנאי</TableHead>
-                  <TableHead className="text-right">שעות טיסה קודמות</TableHead>
                   <TableHead className="text-right">שעות טיסה כוללות</TableHead>
+                  <TableHead className="text-right">מס׳ טיסות</TableHead>
                   <TableHead className="w-16"></TableHead>
                 </TableRow>
               </TableHeader>
@@ -147,8 +147,8 @@ export default function DeliveryCertificate() {
                   >
                     <TableCell>{cert.pre_flight_date ? cert.pre_flight_date.split('-').reverse().join('/') : "ללא תאריך"}</TableCell>
                     <TableCell>{cert.technician_name_pre || "-"}</TableCell>
-                    <TableCell>{cert.previous_flight_hours || "-"}</TableCell>
                     <TableCell>{cert.overall_flight_hours || "-"}</TableCell>
+                    <TableCell>{[cert.flight_1_to_time, cert.flight_2_to_time, cert.flight_3_to_time].filter(Boolean).length}</TableCell>
                     <TableCell>
                       <Button
                         size="icon"
