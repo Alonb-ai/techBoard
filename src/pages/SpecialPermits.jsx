@@ -40,7 +40,6 @@ export default function SpecialPermits() {
       date: "",
       name: "",
       approved_by: "",
-      serial_number: ""
     };
     setFilteredPermits([...filteredPermits, newPermit]);
   };
@@ -142,7 +141,6 @@ export default function SpecialPermits() {
                   <TableHead className="text-right">Date</TableHead>
                   <TableHead className="text-right">Name/Description</TableHead>
                   <TableHead className="text-right">Approved By</TableHead>
-                  <TableHead className="text-right">Serial Number</TableHead>
                   <TableHead className="w-24"></TableHead>
                 </TableRow>
               </TableHeader>
@@ -171,14 +169,6 @@ export default function SpecialPermits() {
                         onChange={(e) => handleChange(idx, 'approved_by', e.target.value)}
                         className="w-40"
                         placeholder="מאושר על ידי"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        value={permit.serial_number || ""}
-                        onChange={(e) => handleChange(idx, 'serial_number', e.target.value)}
-                        className="w-32"
-                        placeholder="מספר סידורי"
                       />
                     </TableCell>
                     <TableCell>
