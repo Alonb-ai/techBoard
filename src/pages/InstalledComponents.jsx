@@ -122,7 +122,7 @@ export default function InstalledComponents() {
             {selectedTail && (
               <Button onClick={handleAdd} className="bg-blue-700 hover:bg-blue-800 gap-2">
                 <Plus className="w-4 h-4" />
-                הוסף רכיב
+                שינוי רכיבים
               </Button>
             )}
           </div>
