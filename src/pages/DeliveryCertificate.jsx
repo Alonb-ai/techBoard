@@ -66,7 +66,7 @@ export default function DeliveryCertificate() {
       setFilteredCerts(
         certificates
           .filter(c => c.aircraft_tail === selectedTail)
-          .sort((a, b) => (a.pre_flight_date || "").localeCompare(b.pre_flight_date || ""))
+          .sort((a, b) => (b.pre_flight_date || "").localeCompare(a.pre_flight_date || ""))
       );
     } else {
       setFilteredCerts([]);
