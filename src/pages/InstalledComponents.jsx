@@ -90,17 +90,23 @@ export default function InstalledComponents() {
 
   const handleSave = async () => {
     setLoading(true);
-    for (const comp of COMPONENTS) {
-      const record = formData[comp];
-      if (!record) continue;
-      if (record.id) {
-        await base44.entities.InstalledComponent.update(record.id, record);
-      } else {
-        const created = await base44.entities.InstalledComponent.create(record);
-        formData[comp] = created;
+    try {
+      for (const comp of COMPONENTS) {
+        const record = formData[comp];
+        if (!record) continue;
+        const { id, created_date, created_by, updated_date, updated_by, ...data } = record;
+        if (id) {
+          await base44.entities.InstalledComponent.update(id, data);
+        } else {
+          const created = await base44.entities.InstalledComponent.create(data);
+          setFormData(prev => ({ ...prev, [comp]: created }));
+        }
       }
+      await loadData();
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("שגיאה בשמירה: " + (err.message || err));
     }
-    await loadData();
     setLoading(false);
   };
 
