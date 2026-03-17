@@ -171,12 +171,28 @@ export default function InstalledComponents() {
                         const isDate = criterion === "date";
                         return (
                           <td key={aIdx} className="border p-1">
-                            <Input
-                              type={isDate ? "date" : "text"}
-                              value={formData[comp]?.[fieldName] || ""}
-                              onChange={(e) => handleChange(comp, fieldName, e.target.value)}
-                              className="h-8 text-xs"
-                            />
+                            {isDate ? (
+                              <Input
+                                type="text"
+                                value={formData[comp]?.[fieldName] ? formData[comp][fieldName].split('-').reverse().join('/') : ""}
+                                onClick={() => {
+                                  if (!formData[comp]?.[fieldName]) {
+                                    handleChange(comp, fieldName, new Date().toISOString().split('T')[0]);
+                                  }
+                                }}
+                                onChange={(e) => handleChange(comp, fieldName, e.target.value)}
+                                readOnly
+                                className="h-8 text-xs cursor-pointer"
+                                placeholder="לחץ להזנת תאריך"
+                              />
+                            ) : (
+                              <Input
+                                type="text"
+                                value={formData[comp]?.[fieldName] || ""}
+                                onChange={(e) => handleChange(comp, fieldName, e.target.value)}
+                                className="h-8 text-xs"
+                              />
+                            )}
                           </td>
                         );
                       })}
