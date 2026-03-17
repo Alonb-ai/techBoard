@@ -20,6 +20,18 @@ function calcFlightDuration(toTime, landingTime) {
   return `${hours}:${String(mins).padStart(2, '0')}`;
 }
 
+function calcCertFlightMinutes(cert) {
+  let totalMin = 0;
+  for (let i = 1; i <= 3; i++) {
+    const duration = calcFlightDuration(cert[`flight_${i}_to_time`], cert[`flight_${i}_landing_time`]);
+    if (duration) {
+      const [h, m] = duration.split(':').map(Number);
+      totalMin += h * 60 + m;
+    }
+  }
+  return totalMin;
+}
+
 function calcTotalFlightHours(formData) {
   let totalMin = 0;
   for (let i = 1; i <= 3; i++) {
@@ -466,7 +478,12 @@ export default function DeliveryCertificate() {
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <label className="block text-xs mb-1">Previous Flight Hours</label>
-                    <Input value={formData.previous_flight_hours || ""} onChange={(e) => setFormData({...formData, previous_flight_hours: e.target.value})} />
+                    <Input value={(() => {
+                      const otherCerts = certificates.filter(c => c.aircraft_tail === formData.aircraft_tail && c.id !== formData.id);
+                      const totalMin = otherCerts.reduce((sum, c) => sum + calcCertFlightMinutes(c), 0);
+                      if (totalMin === 0) return "-";
+                      return `${Math.floor(totalMin / 60)}:${String(totalMin % 60).padStart(2, '0')}`;
+                    })()} readOnly className="bg-gray-50" />
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Previous Engine Hours</label>
