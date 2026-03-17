@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Plus, Save, ArrowRight, ArrowLeft, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import SignaturePad from "@/components/SignaturePad";
 
 function calcFlightDuration(toTime, landingTime) {
   if (!toTime || !landingTime) return null;
@@ -55,6 +56,7 @@ export default function DeliveryCertificate() {
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [signatureOpen, setSignatureOpen] = useState(null);
 
   useEffect(() => {
     loadCertificates();
@@ -394,13 +396,29 @@ export default function DeliveryCertificate() {
                     <label className="block text-xs mb-1">Flight Goal</label>
                     <Input value={formData.flight_1_goal || ""} onChange={(e) => setFormData({...formData, flight_1_goal: e.target.value})} />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_1_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_1_turn_around: v, flight_1_after_flight: false})} />
-                    <label className="text-xs">Turn Around</label>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Checkbox checked={formData.flight_1_turn_around || false} onCheckedChange={(v) => {
+                        setFormData({...formData, flight_1_turn_around: v, flight_1_after_flight: false, flight_1_after_flight_signature: ""});
+                        if (v) setSignatureOpen("flight_1_turn_around_signature");
+                      }} />
+                      <label className="text-xs">Turn Around</label>
+                    </div>
+                    {formData.flight_1_turn_around_signature && (
+                      <img src={formData.flight_1_turn_around_signature} alt="חתימה" className="h-6 mt-1 object-contain cursor-pointer" onClick={() => setSignatureOpen("flight_1_turn_around_signature")} />
+                    )}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_1_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_1_after_flight: v, flight_1_turn_around: false})} />
-                    <label className="text-xs">After Flight</label>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Checkbox checked={formData.flight_1_after_flight || false} onCheckedChange={(v) => {
+                        setFormData({...formData, flight_1_after_flight: v, flight_1_turn_around: false, flight_1_turn_around_signature: ""});
+                        if (v) setSignatureOpen("flight_1_after_flight_signature");
+                      }} />
+                      <label className="text-xs">After Flight</label>
+                    </div>
+                    {formData.flight_1_after_flight_signature && (
+                      <img src={formData.flight_1_after_flight_signature} alt="חתימה" className="h-6 mt-1 object-contain cursor-pointer" onClick={() => setSignatureOpen("flight_1_after_flight_signature")} />
+                    )}
                   </div>
                 </div>
                 {calcFlightDuration(formData.flight_1_to_time, formData.flight_1_landing_time) && (
@@ -473,13 +491,29 @@ export default function DeliveryCertificate() {
                     <label className="block text-xs mb-1">Flight Goal</label>
                     <Input value={formData.flight_2_goal || ""} onChange={(e) => setFormData({...formData, flight_2_goal: e.target.value})} />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_2_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_2_turn_around: v, flight_2_after_flight: false})} />
-                    <label className="text-xs">Turn Around</label>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Checkbox checked={formData.flight_2_turn_around || false} onCheckedChange={(v) => {
+                        setFormData({...formData, flight_2_turn_around: v, flight_2_after_flight: false, flight_2_after_flight_signature: ""});
+                        if (v) setSignatureOpen("flight_2_turn_around_signature");
+                      }} />
+                      <label className="text-xs">Turn Around</label>
+                    </div>
+                    {formData.flight_2_turn_around_signature && (
+                      <img src={formData.flight_2_turn_around_signature} alt="חתימה" className="h-6 mt-1 object-contain cursor-pointer" onClick={() => setSignatureOpen("flight_2_turn_around_signature")} />
+                    )}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_2_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_2_after_flight: v, flight_2_turn_around: false})} />
-                    <label className="text-xs">After Flight</label>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Checkbox checked={formData.flight_2_after_flight || false} onCheckedChange={(v) => {
+                        setFormData({...formData, flight_2_after_flight: v, flight_2_turn_around: false, flight_2_turn_around_signature: ""});
+                        if (v) setSignatureOpen("flight_2_after_flight_signature");
+                      }} />
+                      <label className="text-xs">After Flight</label>
+                    </div>
+                    {formData.flight_2_after_flight_signature && (
+                      <img src={formData.flight_2_after_flight_signature} alt="חתימה" className="h-6 mt-1 object-contain cursor-pointer" onClick={() => setSignatureOpen("flight_2_after_flight_signature")} />
+                    )}
                   </div>
                 </div>
                 {calcFlightDuration(formData.flight_2_to_time, formData.flight_2_landing_time) && (
@@ -552,13 +586,29 @@ export default function DeliveryCertificate() {
                     <label className="block text-xs mb-1">Flight Goal</label>
                     <Input value={formData.flight_3_goal || ""} onChange={(e) => setFormData({...formData, flight_3_goal: e.target.value})} />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_3_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_3_turn_around: v, flight_3_after_flight: false})} />
-                    <label className="text-xs">Turn Around</label>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Checkbox checked={formData.flight_3_turn_around || false} onCheckedChange={(v) => {
+                        setFormData({...formData, flight_3_turn_around: v, flight_3_after_flight: false, flight_3_after_flight_signature: ""});
+                        if (v) setSignatureOpen("flight_3_turn_around_signature");
+                      }} />
+                      <label className="text-xs">Turn Around</label>
+                    </div>
+                    {formData.flight_3_turn_around_signature && (
+                      <img src={formData.flight_3_turn_around_signature} alt="חתימה" className="h-6 mt-1 object-contain cursor-pointer" onClick={() => setSignatureOpen("flight_3_turn_around_signature")} />
+                    )}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_3_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_3_after_flight: v, flight_3_turn_around: false})} />
-                    <label className="text-xs">After Flight</label>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Checkbox checked={formData.flight_3_after_flight || false} onCheckedChange={(v) => {
+                        setFormData({...formData, flight_3_after_flight: v, flight_3_turn_around: false, flight_3_turn_around_signature: ""});
+                        if (v) setSignatureOpen("flight_3_after_flight_signature");
+                      }} />
+                      <label className="text-xs">After Flight</label>
+                    </div>
+                    {formData.flight_3_after_flight_signature && (
+                      <img src={formData.flight_3_after_flight_signature} alt="חתימה" className="h-6 mt-1 object-contain cursor-pointer" onClick={() => setSignatureOpen("flight_3_after_flight_signature")} />
+                    )}
                   </div>
                 </div>
                 {calcFlightDuration(formData.flight_3_to_time, formData.flight_3_landing_time) && (
@@ -629,6 +679,18 @@ export default function DeliveryCertificate() {
             </div>
           </div>
         )}
+        {/* Signature Pad */}
+        <SignaturePad
+          open={signatureOpen !== null}
+          onClose={() => setSignatureOpen(null)}
+          onSave={(dataUrl) => {
+            if (signatureOpen) {
+              setFormData({...formData, [signatureOpen]: dataUrl});
+            }
+          }}
+          currentSignature={signatureOpen ? formData[signatureOpen] : null}
+        />
+
         {/* Delete Confirmation Dialog */}
         <Dialog open={!!deleteConfirm} onOpenChange={() => setDeleteConfirm(null)}>
           <DialogContent dir="rtl">
