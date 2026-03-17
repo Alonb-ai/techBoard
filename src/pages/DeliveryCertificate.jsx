@@ -461,6 +461,13 @@ export default function DeliveryCertificate() {
                 </div>
               </div>
             </div>
+
+            <div className="flex justify-center py-6">
+              <Button onClick={handleSave} disabled={loading} className="bg-green-600 hover:bg-green-700 gap-2 px-8">
+                <Save className="w-4 h-4" />
+                שמור
+              </Button>
+            </div>
           </div>
         )}
       </div>
