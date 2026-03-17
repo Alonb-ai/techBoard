@@ -3,8 +3,9 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Save, ArrowRight, Plus } from "lucide-react";
+import { Save, ArrowRight, Plus, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 const COMPONENTS = [
   "Avionics Box",
@@ -24,6 +25,7 @@ export default function InstalledComponents() {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const [assemblingCount, setAssemblingCount] = useState(1);
+  const [deleteColIndex, setDeleteColIndex] = useState(null);
 
   useEffect(() => {
     loadComponents();
@@ -84,6 +86,30 @@ export default function InstalledComponents() {
     }
     await loadComponents();
     setLoading(false);
+  };
+
+  const handleDeleteColumn = (colIndex) => {
+    const colNum = colIndex + 1;
+    setFormData(prev => {
+      const updated = { ...prev };
+      COMPONENTS.forEach(comp => {
+        const record = { ...updated[comp] };
+        // Shift columns after deleted one to the left
+        for (let i = colNum; i < assemblingCount; i++) {
+          CRITERIA.forEach(criterion => {
+            record[`${criterion}_${i}`] = record[`${criterion}_${i + 1}`] || "";
+          });
+        }
+        // Clear last column
+        CRITERIA.forEach(criterion => {
+          record[`${criterion}_${assemblingCount}`] = "";
+        });
+        updated[comp] = record;
+      });
+      return updated;
+    });
+    setAssemblingCount(prev => Math.max(1, prev - 1));
+    setDeleteColIndex(null);
   };
 
   const tails = [...new Set(components.map(c => c.aircraft_tail))];
@@ -199,10 +225,40 @@ export default function InstalledComponents() {
                     </tr>
                   ))
                 ))}
+                {/* Delete buttons row */}
+                <tr>
+                  <td className="border p-2" colSpan={2}></td>
+                  {Array.from({ length: assemblingCount }, (_, aIdx) => (
+                    <td key={aIdx} className="border p-1 text-center">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 h-7 w-7 p-0"
+                        onClick={() => setDeleteColIndex(aIdx)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </td>
+                  ))}
+                </tr>
               </tbody>
             </table>
           </div>
         )}
+
+        {/* Delete column confirmation dialog */}
+        <Dialog open={deleteColIndex !== null} onOpenChange={(open) => { if (!open) setDeleteColIndex(null); }}>
+          <DialogContent className="sm:max-w-md" dir="rtl">
+            <DialogHeader>
+              <DialogTitle>מחיקת עמודה</DialogTitle>
+            </DialogHeader>
+            <p className="text-sm text-gray-600">האם ברצונך למחוק את העמודה?</p>
+            <DialogFooter className="flex gap-2 justify-end">
+              <Button variant="outline" onClick={() => setDeleteColIndex(null)}>לא</Button>
+              <Button className="bg-red-600 hover:bg-red-700" onClick={() => handleDeleteColumn(deleteColIndex)}>כן</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
