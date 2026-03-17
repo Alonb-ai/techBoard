@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, FileText, Settings, Shield, Wrench, FileCheck, Search, X, FolderOpen } from "lucide-react";
+import { Plus, FileText, Settings, Shield, Wrench, FileCheck, Search, X, FolderOpen, Scale } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -64,6 +64,7 @@ export default function UAVTailNumber() {
     { name: "Special Permits", path: "/SpecialPermits", icon: Shield, color: "bg-pink-600" },
     { name: "Maintenance Procedures", path: "/MaintenanceProcedures", icon: Wrench, color: "bg-orange-600" },
     { name: "Configuration", path: "/Configuration", icon: FileText, color: "bg-slate-600" },
+    { name: "דף תצורה", path: "/WeightConfig", icon: Scale, color: "bg-amber-600" },
     { name: "Files", path: "/Files", icon: FolderOpen, color: "bg-purple-600" }
   ];
 

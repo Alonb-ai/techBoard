@@ -89,6 +89,9 @@ base44/
 ### Configuration (תצורה)
 תצורת כלי טיס: גרסאות MCU/RSB, HPSB ועוד
 
+### WeightConfig (דף תצורה - משקל ואיזון)
+תצורת משקל ודלק לפי 43 ק"ג: שדות לכל תצורה (E180, מגדל, XR, E140) עם/בלי beacon
+
 ---
 
 ## עבודה עם Base44 SDK
@@ -165,7 +168,7 @@ navigate(createPageUrl("FaultBoard"));
 <Link to={createPageUrl("UAVTailNumber")}>...</Link>
 ```
 
-**דפים קיימים:** FaultBoard, UAVTailNumber, DeliveryCertificate, InstalledComponents, SpecialPermits, MaintenanceProcedures, Configuration
+**דפים קיימים:** FaultBoard, UAVTailNumber, DeliveryCertificate, InstalledComponents, SpecialPermits, MaintenanceProcedures, Configuration, WeightConfig
 
 ---
 
