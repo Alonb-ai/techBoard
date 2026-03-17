@@ -145,10 +145,10 @@ export default function InstalledComponents() {
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-blue-50">
-                  <th className="border p-2 text-right font-bold w-32">Component</th>
-                  <th className="border p-2 text-right font-bold w-16">Criterion</th>
+                  <th className="border p-2 text-right font-bold w-28">Component</th>
+                  <th className="border p-2 text-right font-bold w-14">Criterion</th>
                   {Array.from({ length: assemblingCount }, (_, i) => (
-                    <th key={i} className="border p-2 text-center font-bold w-36">
+                    <th key={i} className="border p-2 text-center font-bold w-28">
                       Assembling {i + 1}
                     </th>
                   ))}
