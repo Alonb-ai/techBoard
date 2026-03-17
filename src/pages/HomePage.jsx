@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, FileText, Settings, Shield, Wrench, FileCheck, Search, X, FolderOpen, Scale, RefreshCw } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Plus, Search, X, RefreshCw } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { format } from "date-fns";
 
@@ -81,16 +80,6 @@ export default function HomePage() {
   const filteredTails = tailNumbers.filter(tail =>
     tail.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const pages = [
-    { name: "Delivery Certificate", path: "/DeliveryCertificate", icon: FileCheck, color: "bg-green-600" },
-    { name: "Installed Components", path: "/InstalledComponents", icon: Settings, color: "bg-blue-600" },
-    { name: "Special Permits", path: "/SpecialPermits", icon: Shield, color: "bg-pink-600" },
-    { name: "Maintenance Procedures", path: "/MaintenanceProcedures", icon: Wrench, color: "bg-orange-600" },
-    { name: "Configuration", path: "/Configuration", icon: FileText, color: "bg-slate-600" },
-    { name: "דף תצורה", path: "/WeightConfig", icon: Scale, color: "bg-amber-600" },
-    { name: "Files", path: "/Files", icon: FolderOpen, color: "bg-purple-600" }
-  ];
 
   // === Fault Board Logic ===
   const loadFaults = async () => {
@@ -201,29 +190,16 @@ export default function HomePage() {
                 לא נמצאו מטוסים התואמים לחיפוש "{searchQuery}"
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
                 {filteredTails.map((tail) => (
-                  <Card key={tail} className="bg-white shadow-lg hover:shadow-xl transition-all duration-300">
-                    <CardHeader className="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-t-lg py-3">
-                      <CardTitle className="text-xl font-bold text-center">{tail}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4">
-                      <div className="grid grid-cols-2 gap-2">
-                        {pages.map((page) => (
-                          <Link
-                            key={page.path}
-                            to={`${page.path}?tail=${tail}`}
-                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
-                          >
-                            <div className={`w-8 h-8 ${page.color} rounded-lg flex items-center justify-center`}>
-                              <page.icon className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="text-xs font-medium text-gray-700">{page.name}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <Link key={tail} to={`/UAVTailNumber?tail=${tail}`}>
+                    <Button
+                      variant="outline"
+                      className="w-full h-14 text-lg font-bold bg-gradient-to-br from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 hover:text-white shadow-md hover:shadow-lg transition-all duration-300"
+                    >
+                      {tail}
+                    </Button>
+                  </Link>
                 ))}
               </div>
             )}
