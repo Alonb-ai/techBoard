@@ -137,7 +137,7 @@ export default function DeliveryCertificate() {
             <div className="flex items-center gap-3">
               {formData ? (
                 <Button variant="outline" size="icon" className="ml-2" onClick={handleBackToList}>
-                  <ArrowLeft className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4" />
                 </Button>
               ) : (
                 <Link to="/UAVTailNumber">
@@ -243,7 +243,7 @@ export default function DeliveryCertificate() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-bold">
-                {formData.id ? `תעודת מסירה - ${formData.pre_flight_date || ""}` : "תעודה חדשה"}
+                {formData.id ? `תעודת מסירה - ${formData.pre_flight_date ? formData.pre_flight_date.split('-').reverse().join('/') : ""}` : "תעודה חדשה"}
               </h2>
               <Button onClick={handleSave} disabled={loading} className="bg-green-600 hover:bg-green-700 gap-2">
                 <Save className="w-4 h-4" />
