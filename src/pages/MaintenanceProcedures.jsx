@@ -6,12 +6,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Save, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import SignaturePad from "@/components/SignaturePad";
 
 export default function MaintenanceProcedures() {
   const [procedures, setProcedures] = useState([]);
   const [selectedTail, setSelectedTail] = useState("");
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [signatureOpen, setSignatureOpen] = useState(null);
 
   useEffect(() => {
     loadProcedures();
@@ -247,16 +249,32 @@ export default function MaintenanceProcedures() {
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Signature</label>
-                    <Input
-                      value={entry.closing_signature || ""}
-                      onChange={(e) => handleChange(idx, 'closing_signature', e.target.value)}
-                    />
+                    <div
+                      className="border rounded-md p-2 h-10 flex items-center justify-center cursor-pointer hover:bg-gray-50"
+                      onClick={() => setSignatureOpen(idx)}
+                    >
+                      {entry.closing_signature ? (
+                        <img src={entry.closing_signature} alt="חתימה" className="h-8 object-contain" />
+                      ) : (
+                        <span className="text-xs text-gray-400">לחץ לחתימה</span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         )}
+        <SignaturePad
+          open={signatureOpen !== null}
+          onClose={() => setSignatureOpen(null)}
+          onSave={(dataUrl) => {
+            if (signatureOpen !== null) {
+              handleChange(signatureOpen, 'closing_signature', dataUrl);
+            }
+          }}
+          currentSignature={signatureOpen !== null ? entries[signatureOpen]?.closing_signature : null}
+        />
       </div>
     </div>
   );
