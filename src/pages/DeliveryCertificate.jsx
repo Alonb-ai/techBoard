@@ -387,7 +387,7 @@ export default function DeliveryCertificate() {
                     <Input value={formData.flight_1_technician_name || ""} onChange={(e) => setFormData({...formData, flight_1_technician_name: e.target.value})} />
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_1_permits || false} onCheckedChange={(v) => setFormData({...formData, flight_1_permits: v})} />
+                    <Checkbox checked={formData.flight_1_permits || false} onCheckedChange={(v) => setFormData({...formData, flight_1_permits: v, flight_1_turn_around: false, flight_1_after_flight: false})} />
                     <label className="text-xs">Permits</label>
                   </div>
                   <div>
@@ -395,11 +395,11 @@ export default function DeliveryCertificate() {
                     <Input value={formData.flight_1_goal || ""} onChange={(e) => setFormData({...formData, flight_1_goal: e.target.value})} />
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_1_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_1_turn_around: v})} />
+                    <Checkbox checked={formData.flight_1_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_1_turn_around: v, flight_1_permits: false, flight_1_after_flight: false})} />
                     <label className="text-xs">Turn Around</label>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_1_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_1_after_flight: v})} />
+                    <Checkbox checked={formData.flight_1_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_1_after_flight: v, flight_1_permits: false, flight_1_turn_around: false})} />
                     <label className="text-xs">After Flight</label>
                   </div>
                 </div>
@@ -466,7 +466,7 @@ export default function DeliveryCertificate() {
                     <Input value={formData.flight_2_technician_name || ""} onChange={(e) => setFormData({...formData, flight_2_technician_name: e.target.value})} />
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_2_permits || false} onCheckedChange={(v) => setFormData({...formData, flight_2_permits: v})} />
+                    <Checkbox checked={formData.flight_2_permits || false} onCheckedChange={(v) => setFormData({...formData, flight_2_permits: v, flight_2_turn_around: false, flight_2_after_flight: false})} />
                     <label className="text-xs">Permits</label>
                   </div>
                   <div>
@@ -474,11 +474,11 @@ export default function DeliveryCertificate() {
                     <Input value={formData.flight_2_goal || ""} onChange={(e) => setFormData({...formData, flight_2_goal: e.target.value})} />
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_2_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_2_turn_around: v})} />
+                    <Checkbox checked={formData.flight_2_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_2_turn_around: v, flight_2_permits: false, flight_2_after_flight: false})} />
                     <label className="text-xs">Turn Around</label>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_2_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_2_after_flight: v})} />
+                    <Checkbox checked={formData.flight_2_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_2_after_flight: v, flight_2_permits: false, flight_2_turn_around: false})} />
                     <label className="text-xs">After Flight</label>
                   </div>
                 </div>
@@ -545,7 +545,7 @@ export default function DeliveryCertificate() {
                     <Input value={formData.flight_3_technician_name || ""} onChange={(e) => setFormData({...formData, flight_3_technician_name: e.target.value})} />
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_3_permits || false} onCheckedChange={(v) => setFormData({...formData, flight_3_permits: v})} />
+                    <Checkbox checked={formData.flight_3_permits || false} onCheckedChange={(v) => setFormData({...formData, flight_3_permits: v, flight_3_turn_around: false, flight_3_after_flight: false})} />
                     <label className="text-xs">Permits</label>
                   </div>
                   <div>
@@ -553,11 +553,11 @@ export default function DeliveryCertificate() {
                     <Input value={formData.flight_3_goal || ""} onChange={(e) => setFormData({...formData, flight_3_goal: e.target.value})} />
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_3_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_3_turn_around: v})} />
+                    <Checkbox checked={formData.flight_3_turn_around || false} onCheckedChange={(v) => setFormData({...formData, flight_3_turn_around: v, flight_3_permits: false, flight_3_after_flight: false})} />
                     <label className="text-xs">Turn Around</label>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={formData.flight_3_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_3_after_flight: v})} />
+                    <Checkbox checked={formData.flight_3_after_flight || false} onCheckedChange={(v) => setFormData({...formData, flight_3_after_flight: v, flight_3_permits: false, flight_3_turn_around: false})} />
                     <label className="text-xs">After Flight</label>
                   </div>
                 </div>
