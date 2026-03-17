@@ -81,7 +81,15 @@ export default function DeliveryCertificate() {
   const handleNewCertificate = () => {
     setFormData({
       aircraft_tail: selectedTail,
-      pre_flight_date: new Date().toISOString().split('T')[0]
+      pre_flight_date: new Date().toISOString().split('T')[0],
+      r_boom: selectedTail,
+      l_boom: selectedTail,
+      elevator: selectedTail,
+      l_rudder: selectedTail,
+      r_rudder: selectedTail,
+      r_wing: selectedTail,
+      l_wing: selectedTail,
+      main_wing: selectedTail,
     });
   };
 
