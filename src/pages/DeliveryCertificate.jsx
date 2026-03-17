@@ -145,7 +145,7 @@ export default function DeliveryCertificate() {
                     className="cursor-pointer hover:bg-green-50"
                     onClick={() => handleSelectCertificate(cert)}
                   >
-                    <TableCell>{cert.pre_flight_date || "ללא תאריך"}</TableCell>
+                    <TableCell>{cert.pre_flight_date ? cert.pre_flight_date.split('-').reverse().join('/') : "ללא תאריך"}</TableCell>
                     <TableCell>{cert.technician_name_pre || "-"}</TableCell>
                     <TableCell>{cert.previous_flight_hours || "-"}</TableCell>
                     <TableCell>{cert.overall_flight_hours || "-"}</TableCell>
