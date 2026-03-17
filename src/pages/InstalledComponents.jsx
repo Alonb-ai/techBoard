@@ -199,17 +199,15 @@ export default function InstalledComponents() {
                           <td key={aIdx} className="border p-1">
                             {isDate ? (
                               <Input
-                                type="text"
-                                value={formData[comp]?.[fieldName] ? formData[comp][fieldName].split('-').reverse().join('/') : ""}
+                                type="date"
+                                value={formData[comp]?.[fieldName] || ""}
                                 onClick={() => {
                                   if (!formData[comp]?.[fieldName]) {
                                     handleChange(comp, fieldName, new Date().toISOString().split('T')[0]);
                                   }
                                 }}
                                 onChange={(e) => handleChange(comp, fieldName, e.target.value)}
-                                readOnly
                                 className="h-8 text-xs cursor-pointer"
-                                placeholder="לחץ להזנת תאריך"
                               />
                             ) : (
                               <Input
