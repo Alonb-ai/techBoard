@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Search, RefreshCw } from "lucide-react";
+import { Plus, Search, RefreshCw, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
 import StatsCards from "../components/faults/StatsCards";
@@ -95,6 +96,11 @@ export default function FaultBoard() {
             </div>
           </div>
           <div className="flex gap-2">
+            <Link to="/Home">
+              <Button variant="outline" size="icon" className="h-9 w-9">
+                <Home className="w-4 h-4" />
+              </Button>
+            </Link>
             <Button variant="outline" size="icon" onClick={loadData} className="h-9 w-9">
               <RefreshCw className="w-4 h-4" />
             </Button>

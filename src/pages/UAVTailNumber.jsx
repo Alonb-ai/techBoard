@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, FileText, Settings, Shield, Wrench, FileCheck, Search, X, FolderOpen, Scale } from "lucide-react";
+import { Plus, FileText, Settings, Shield, Wrench, FileCheck, Search, X, FolderOpen, Scale, Home } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -102,6 +102,11 @@ export default function UAVTailNumber() {
                 </button>
               )}
             </div>
+            <Link to="/Home">
+              <Button variant="outline" size="icon" className="h-10 w-10">
+                <Home className="w-4 h-4" />
+              </Button>
+            </Link>
             <Button onClick={() => setShowAddDialog(true)} className="bg-blue-700 hover:bg-blue-800 gap-2">
               <Plus className="w-4 h-4" />
               הוסף מטוס

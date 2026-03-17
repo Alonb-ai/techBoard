@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Save, ArrowRight, Scale } from "lucide-react";
+import { Save, Home, Scale } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -98,9 +98,9 @@ export default function WeightConfig() {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <Link to="/UAVTailNumber">
+              <Link to="/Home">
                 <Button variant="outline" size="icon" className="ml-2">
-                  <ArrowRight className="w-4 h-4" />
+                  <Home className="w-4 h-4" />
                 </Button>
               </Link>
               <div className="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center">

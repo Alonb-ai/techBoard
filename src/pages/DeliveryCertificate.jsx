@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Plus, Save, ArrowRight, ArrowLeft, Trash2 } from "lucide-react";
+import { Plus, Save, ArrowRight, ArrowLeft, Trash2, Home } from "lucide-react";
 import { Link } from "react-router-dom";
 import SignaturePad from "@/components/SignaturePad";
 
@@ -142,9 +142,9 @@ export default function DeliveryCertificate() {
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               ) : (
-                <Link to="/UAVTailNumber">
+                <Link to="/Home">
                   <Button variant="outline" size="icon" className="ml-2">
-                    <ArrowRight className="w-4 h-4" />
+                    <Home className="w-4 h-4" />
                   </Button>
                 </Link>
               )}
