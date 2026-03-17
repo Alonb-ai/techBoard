@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Save, ArrowRight, Plus, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 const COMPONENTS = [
@@ -20,7 +20,9 @@ const COMPONENTS = [
 const CRITERIA = ["pn", "sn", "name", "date"];
 const CRITERIA_LABELS = { pn: "P/N", sn: "S/N", name: "Name", date: "Date" };
 export default function InstalledComponents() {
+  const navigate = useNavigate();
   const [components, setComponents] = useState([]);
+  const [allTails, setAllTails] = useState([]);
   const [selectedTail, setSelectedTail] = useState("");
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -28,7 +30,7 @@ export default function InstalledComponents() {
   const [deleteColIndex, setDeleteColIndex] = useState(null);
 
   useEffect(() => {
-    loadComponents();
+    loadData();
     const urlParams = new URLSearchParams(window.location.search);
     const tail = urlParams.get('tail');
     if (tail) setSelectedTail(tail);
@@ -40,9 +42,23 @@ export default function InstalledComponents() {
     }
   }, [selectedTail, components]);
 
-  const loadComponents = async () => {
-    const data = await base44.entities.InstalledComponent.list();
-    setComponents(data);
+  const loadData = async () => {
+    const [comps, certs, permits, procs, configs] = await Promise.all([
+      base44.entities.InstalledComponent.list(),
+      base44.entities.DeliveryCertificate.list(),
+      base44.entities.SpecialPermit.list(),
+      base44.entities.MaintenanceProcedure.list(),
+      base44.entities.Configuration.list()
+    ]);
+    setComponents(comps);
+    const tails = new Set([
+      ...comps.map(c => c.aircraft_tail),
+      ...certs.map(c => c.aircraft_tail),
+      ...permits.map(p => p.aircraft_tail),
+      ...procs.map(p => p.aircraft_tail),
+      ...configs.map(c => c.aircraft_tail)
+    ]);
+    setAllTails([...tails].filter(Boolean).sort());
   };
 
   const buildFormData = () => {
@@ -84,7 +100,7 @@ export default function InstalledComponents() {
         formData[comp] = created;
       }
     }
-    await loadComponents();
+    await loadData();
     setLoading(false);
   };
 
@@ -112,7 +128,7 @@ export default function InstalledComponents() {
     setDeleteColIndex(null);
   };
 
-  const tails = [...new Set(components.map(c => c.aircraft_tail))];
+  const tails = [...allTails];
   if (selectedTail && !tails.includes(selectedTail)) {
     tails.push(selectedTail);
   }
@@ -140,7 +156,10 @@ export default function InstalledComponents() {
           </div>
 
           <div className="flex gap-3">
-            <Select value={selectedTail} onValueChange={setSelectedTail}>
+            <Select value={selectedTail} onValueChange={(val) => {
+              setSelectedTail(val);
+              navigate(`/InstalledComponents?tail=${val}`);
+            }}>
               <SelectTrigger className="w-60">
                 <SelectValue placeholder="בחר מספר זנב" />
               </SelectTrigger>
