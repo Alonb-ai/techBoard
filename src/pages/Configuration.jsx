@@ -132,11 +132,21 @@ export default function Configuration() {
                 </div>
                 <div>
                   <label className="block text-xs mb-1">Date</label>
-                  <Input
-                    type="date"
-                    value={formData.mcu_date || ""}
-                    onChange={(e) => setFormData({...formData, mcu_date: e.target.value})}
-                  />
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      readOnly
+                      value={formData.mcu_date ? formData.mcu_date.split('-').reverse().join('/') : ""}
+                      placeholder="בחר תאריך"
+                      className="cursor-pointer"
+                    />
+                    <input
+                      type="date"
+                      value={formData.mcu_date || ""}
+                      onChange={(e) => setFormData({...formData, mcu_date: e.target.value})}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs mb-1">Technician</label>
@@ -168,11 +178,21 @@ export default function Configuration() {
                 </div>
                 <div>
                   <label className="block text-xs mb-1">Date</label>
-                  <Input
-                    type="date"
-                    value={formData.rsb_date || ""}
-                    onChange={(e) => setFormData({...formData, rsb_date: e.target.value})}
-                  />
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      readOnly
+                      value={formData.rsb_date ? formData.rsb_date.split('-').reverse().join('/') : ""}
+                      placeholder="בחר תאריך"
+                      className="cursor-pointer"
+                    />
+                    <input
+                      type="date"
+                      value={formData.rsb_date || ""}
+                      onChange={(e) => setFormData({...formData, rsb_date: e.target.value})}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs mb-1">Technician</label>

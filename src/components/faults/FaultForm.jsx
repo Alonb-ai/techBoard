@@ -80,7 +80,21 @@ export default function FaultForm({ open, onClose, onSubmit, initialData, isAdmi
             </div>
             <div className="space-y-1">
               <Label>תאריך פתיחה</Label>
-              <Input type="date" value={form.opened_date} onChange={e => set("opened_date", e.target.value)} />
+              <div className="relative">
+                <Input
+                  type="text"
+                  readOnly
+                  value={form.opened_date ? form.opened_date.split('-').reverse().join('/') : ""}
+                  placeholder="בחר תאריך"
+                  className="cursor-pointer"
+                />
+                <input
+                  type="date"
+                  value={form.opened_date || ""}
+                  onChange={e => set("opened_date", e.target.value)}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+              </div>
             </div>
           </div>
 

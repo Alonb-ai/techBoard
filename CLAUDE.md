@@ -171,6 +171,11 @@ navigate(createPageUrl("FaultBoard"));
 
 ## דפוסי קוד וקונבנציות
 
+### תאריכים
+- כל פעם שיוצג תאריך הוא יוצג ב DD/MM/YY (פורמט ישראלי)
+- שמירה בפורמט ISO (YYYY-MM-DD), תצוגה בפורמט `value.split('-').reverse().join('/')`
+- שימוש ב-hidden date picker: `<Input type="text" readOnly>` + `<input type="date" className="absolute inset-0 opacity-0">`
+
 ### RTL ועברית
 - האפליקציה בעברית מלאה
 - להוסיף `dir="rtl"` לקונטיינרים ראשיים

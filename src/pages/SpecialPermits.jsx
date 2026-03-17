@@ -170,12 +170,22 @@ export default function SpecialPermits() {
                 {filteredPermits.map((permit, idx) => (
                   <TableRow key={idx}>
                     <TableCell>
-                      <Input
-                        type="date"
-                        value={permit.date || ""}
-                        onChange={(e) => handleChange(idx, 'date', e.target.value)}
-                        className="w-36"
-                      />
+                      <div className="relative w-36">
+                        <Input
+                          type="text"
+                          readOnly
+                          value={permit.date ? permit.date.split('-').reverse().join('/') : ""}
+                          placeholder="בחר תאריך"
+                          className="w-36 cursor-pointer"
+                          onClick={(e) => e.target.nextElementSibling.showPicker()}
+                        />
+                        <input
+                          type="date"
+                          value={permit.date || ""}
+                          onChange={(e) => handleChange(idx, 'date', e.target.value)}
+                          className="absolute inset-0 opacity-0 cursor-pointer"
+                        />
+                      </div>
                     </TableCell>
                     <TableCell>
                       <Input

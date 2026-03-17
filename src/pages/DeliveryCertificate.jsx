@@ -315,7 +315,22 @@ export default function DeliveryCertificate() {
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Pre Flight Date</label>
-                    <Input type="date" value={formData.pre_flight_date || ""} onChange={(e) => setFormData({...formData, pre_flight_date: e.target.value})} />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        readOnly
+                        value={formData.pre_flight_date ? formData.pre_flight_date.split('-').reverse().join('/') : ""}
+                        placeholder="בחר תאריך"
+                        className="cursor-pointer"
+                        onClick={(e) => e.target.nextElementSibling.showPicker()}
+                      />
+                      <input
+                        type="date"
+                        value={formData.pre_flight_date || ""}
+                        onChange={(e) => setFormData({...formData, pre_flight_date: e.target.value})}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -346,7 +361,22 @@ export default function DeliveryCertificate() {
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Flight Date</label>
-                    <Input type="date" value={formData.flight_1_date || ""} onChange={(e) => setFormData({...formData, flight_1_date: e.target.value})} />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        readOnly
+                        value={formData.flight_1_date ? formData.flight_1_date.split('-').reverse().join('/') : ""}
+                        placeholder="בחר תאריך"
+                        className="cursor-pointer"
+                        onClick={(e) => e.target.nextElementSibling.showPicker()}
+                      />
+                      <input
+                        type="date"
+                        value={formData.flight_1_date || ""}
+                        onChange={(e) => setFormData({...formData, flight_1_date: e.target.value})}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Operator Name</label>
@@ -410,7 +440,22 @@ export default function DeliveryCertificate() {
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Flight Date</label>
-                    <Input type="date" value={formData.flight_2_date || ""} onChange={(e) => setFormData({...formData, flight_2_date: e.target.value})} />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        readOnly
+                        value={formData.flight_2_date ? formData.flight_2_date.split('-').reverse().join('/') : ""}
+                        placeholder="בחר תאריך"
+                        className="cursor-pointer"
+                        onClick={(e) => e.target.nextElementSibling.showPicker()}
+                      />
+                      <input
+                        type="date"
+                        value={formData.flight_2_date || ""}
+                        onChange={(e) => setFormData({...formData, flight_2_date: e.target.value})}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Operator Name</label>
@@ -474,7 +519,22 @@ export default function DeliveryCertificate() {
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Flight Date</label>
-                    <Input type="date" value={formData.flight_3_date || ""} onChange={(e) => setFormData({...formData, flight_3_date: e.target.value})} />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        readOnly
+                        value={formData.flight_3_date ? formData.flight_3_date.split('-').reverse().join('/') : ""}
+                        placeholder="בחר תאריך"
+                        className="cursor-pointer"
+                        onClick={(e) => e.target.nextElementSibling.showPicker()}
+                      />
+                      <input
+                        type="date"
+                        value={formData.flight_3_date || ""}
+                        onChange={(e) => setFormData({...formData, flight_3_date: e.target.value})}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Operator Name</label>

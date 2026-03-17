@@ -143,11 +143,21 @@ export default function MaintenanceProcedures() {
                     <div className="space-y-3">
                       <div>
                         <label className="block text-xs mb-1">Date</label>
-                        <Input
-                          type="date"
-                          value={entry.malfunction_date || ""}
-                          onChange={(e) => handleChange(idx, 'malfunction_date', e.target.value)}
-                        />
+                        <div className="relative">
+                          <Input
+                            type="text"
+                            readOnly
+                            value={entry.malfunction_date ? entry.malfunction_date.split('-').reverse().join('/') : ""}
+                            placeholder="בחר תאריך"
+                            className="cursor-pointer"
+                          />
+                          <input
+                            type="date"
+                            value={entry.malfunction_date || ""}
+                            onChange={(e) => handleChange(idx, 'malfunction_date', e.target.value)}
+                            className="absolute inset-0 opacity-0 cursor-pointer"
+                          />
+                        </div>
                       </div>
                       <div>
                         <label className="block text-xs mb-1">Name</label>
@@ -173,11 +183,21 @@ export default function MaintenanceProcedures() {
                     <div className="space-y-3">
                       <div>
                         <label className="block text-xs mb-1">Date</label>
-                        <Input
-                          type="date"
-                          value={entry.solution_date || ""}
-                          onChange={(e) => handleChange(idx, 'solution_date', e.target.value)}
-                        />
+                        <div className="relative">
+                          <Input
+                            type="text"
+                            readOnly
+                            value={entry.solution_date ? entry.solution_date.split('-').reverse().join('/') : ""}
+                            placeholder="בחר תאריך"
+                            className="cursor-pointer"
+                          />
+                          <input
+                            type="date"
+                            value={entry.solution_date || ""}
+                            onChange={(e) => handleChange(idx, 'solution_date', e.target.value)}
+                            className="absolute inset-0 opacity-0 cursor-pointer"
+                          />
+                        </div>
                       </div>
                       <div>
                         <label className="block text-xs mb-1">Name</label>
@@ -202,11 +222,21 @@ export default function MaintenanceProcedures() {
                 <div className="border-t mt-4 pt-4 grid grid-cols-3 gap-3">
                   <div>
                     <label className="block text-xs mb-1">Closing Date</label>
-                    <Input
-                      type="date"
-                      value={entry.closing_date || ""}
-                      onChange={(e) => handleChange(idx, 'closing_date', e.target.value)}
-                    />
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        readOnly
+                        value={entry.closing_date ? entry.closing_date.split('-').reverse().join('/') : ""}
+                        placeholder="בחר תאריך"
+                        className="cursor-pointer"
+                      />
+                      <input
+                        type="date"
+                        value={entry.closing_date || ""}
+                        onChange={(e) => handleChange(idx, 'closing_date', e.target.value)}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Closing Name</label>

@@ -223,17 +223,26 @@ export default function InstalledComponents() {
                         return (
                           <td key={aIdx} className="border p-1">
                             {isDate ? (
-                              <Input
-                                type="date"
-                                value={formData[comp]?.[fieldName] || ""}
-                                onClick={() => {
-                                  if (!formData[comp]?.[fieldName]) {
-                                    handleChange(comp, fieldName, new Date().toISOString().split('T')[0]);
-                                  }
-                                }}
-                                onChange={(e) => handleChange(comp, fieldName, e.target.value)}
-                                className="h-8 text-xs cursor-pointer"
-                              />
+                              <div className="relative">
+                                <Input
+                                  type="text"
+                                  readOnly
+                                  value={formData[comp]?.[fieldName] ? formData[comp][fieldName].split('-').reverse().join('/') : ""}
+                                  placeholder="לחץ"
+                                  className="h-8 text-xs cursor-pointer"
+                                  onClick={() => {
+                                    if (!formData[comp]?.[fieldName]) {
+                                      handleChange(comp, fieldName, new Date().toISOString().split('T')[0]);
+                                    }
+                                  }}
+                                />
+                                <input
+                                  type="date"
+                                  value={formData[comp]?.[fieldName] || ""}
+                                  onChange={(e) => handleChange(comp, fieldName, e.target.value)}
+                                  className="absolute inset-0 opacity-0 cursor-pointer"
+                                />
+                              </div>
                             ) : (
                               <Input
                                 type="text"
