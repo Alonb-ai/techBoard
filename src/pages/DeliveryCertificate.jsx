@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Plus, Save, ArrowRight, ArrowLeft, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -53,6 +54,7 @@ export default function DeliveryCertificate() {
   const [filteredCerts, setFilteredCerts] = useState([]);
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
 
   useEffect(() => {
     loadCertificates();
@@ -185,8 +187,8 @@ export default function DeliveryCertificate() {
                   <TableHead className="text-right">תאריך</TableHead>
                   <TableHead className="text-right">טכנאי</TableHead>
                   <TableHead className="text-right">שעות טיסה</TableHead>
-                  <TableHead className="text-right">שעות טיסה כוללות</TableHead>
                   <TableHead className="text-right">מס׳ טיסות</TableHead>
+                  <TableHead className="text-right">שעות טיסה כוללות</TableHead>
                   <TableHead className="w-16"></TableHead>
                 </TableRow>
               </TableHeader>
@@ -204,6 +206,7 @@ export default function DeliveryCertificate() {
                       if (mins === 0) return "-";
                       return `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`;
                     })()}</TableCell>
+                    <TableCell>{[cert.flight_1_to_time, cert.flight_2_to_time, cert.flight_3_to_time].filter(Boolean).length}</TableCell>
                     <TableCell>{(() => {
                       const sameTailCerts = certificates
                         .filter(c => c.aircraft_tail === cert.aircraft_tail)
@@ -214,12 +217,11 @@ export default function DeliveryCertificate() {
                       if (totalMin === 0) return "-";
                       return `${Math.floor(totalMin / 60)}:${String(totalMin % 60).padStart(2, '0')}`;
                     })()}</TableCell>
-                    <TableCell>{[cert.flight_1_to_time, cert.flight_2_to_time, cert.flight_3_to_time].filter(Boolean).length}</TableCell>
                     <TableCell>
                       <Button
                         size="icon"
                         variant="ghost"
-                        onClick={(e) => { e.stopPropagation(); handleDelete(cert); }}
+                        onClick={(e) => { e.stopPropagation(); setDeleteConfirm(cert); }}
                       >
                         <Trash2 className="w-4 h-4 text-red-600" />
                       </Button>
@@ -560,6 +562,19 @@ export default function DeliveryCertificate() {
             </div>
           </div>
         )}
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={!!deleteConfirm} onOpenChange={() => setDeleteConfirm(null)}>
+          <DialogContent dir="rtl">
+            <DialogHeader>
+              <DialogTitle>מחיקת תעודת מסירה</DialogTitle>
+            </DialogHeader>
+            <p className="text-sm text-gray-600">האם אתה בטוח שאתה רוצה למחוק את התעודת מסירה?</p>
+            <DialogFooter className="flex gap-2 justify-end">
+              <Button variant="outline" onClick={() => setDeleteConfirm(null)}>לא</Button>
+              <Button variant="destructive" onClick={() => { handleDelete(deleteConfirm); setDeleteConfirm(null); }}>כן</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
