@@ -169,7 +169,7 @@ export default function DeliveryCertificate() {
                 </SelectContent>
               </Select>
               {selectedTail && (
-                <Button onClick={handleNewCertificate} className="bg-green-600 hover:bg-green-700 gap-2">
+                <Button onClick={handleNewCertificate} className="bg-blue-600 hover:bg-blue-700 gap-2">
                   <Plus className="w-4 h-4" />
                   תעודה חדשה
                 </Button>
@@ -245,7 +245,7 @@ export default function DeliveryCertificate() {
               <h2 className="text-lg font-bold">
                 {formData.id ? `תעודת מסירה - ${formData.pre_flight_date ? formData.pre_flight_date.split('-').reverse().join('/') : ""}` : "תעודה חדשה"}
               </h2>
-              <Button onClick={handleSave} disabled={loading} className="bg-green-600 hover:bg-green-700 gap-2">
+              <Button onClick={handleSave} disabled={loading} className="bg-blue-600 hover:bg-blue-700 gap-2">
                 <Save className="w-4 h-4" />
                 שמור
               </Button>
@@ -562,7 +562,7 @@ export default function DeliveryCertificate() {
             </div>
 
             <div className="flex justify-center py-6">
-              <Button onClick={handleSave} disabled={loading} className="bg-green-600 hover:bg-green-700 gap-2 px-8">
+              <Button onClick={handleSave} disabled={loading} className="bg-blue-600 hover:bg-blue-700 gap-2 px-8">
                 <Save className="w-4 h-4" />
                 שמור
               </Button>
