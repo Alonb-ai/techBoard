@@ -11,6 +11,7 @@ import SignaturePad from "@/components/SignaturePad";
 
 export default function MaintenanceProcedures() {
   const [procedures, setProcedures] = useState([]);
+  const [allTails, setAllTails] = useState([]);
   const [selectedTail, setSelectedTail] = useState("");
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ export default function MaintenanceProcedures() {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
 
   useEffect(() => {
-    loadProcedures();
+    loadData();
     const urlParams = new URLSearchParams(window.location.search);
     const tail = urlParams.get('tail');
     if (tail) setSelectedTail(tail);
@@ -66,9 +67,23 @@ export default function MaintenanceProcedures() {
     setEntries([...entries, createEmptyEntry(selectedTail, nextNumber)]);
   };
 
-  const loadProcedures = async () => {
-    const data = await base44.entities.MaintenanceProcedure.list();
-    setProcedures(data);
+  const loadData = async () => {
+    const [procData, configs, certs, comps, permits] = await Promise.all([
+      base44.entities.MaintenanceProcedure.list(),
+      base44.entities.Configuration.list(),
+      base44.entities.DeliveryCertificate.list(),
+      base44.entities.InstalledComponent.list(),
+      base44.entities.SpecialPermit.list()
+    ]);
+    setProcedures(procData);
+    const tails = new Set([
+      ...procData.map(p => p.aircraft_tail),
+      ...configs.map(c => c.aircraft_tail),
+      ...certs.map(c => c.aircraft_tail),
+      ...comps.map(c => c.aircraft_tail),
+      ...permits.map(p => p.aircraft_tail)
+    ]);
+    setAllTails([...tails].filter(Boolean).sort());
   };
 
   const handleSave = async (index) => {
@@ -81,7 +96,7 @@ export default function MaintenanceProcedures() {
       entries[index] = created;
       setEntries([...entries]);
     }
-    await loadProcedures();
+    await loadData();
     setLoading(false);
   };
 
@@ -96,7 +111,7 @@ export default function MaintenanceProcedures() {
     setLoading(true);
     if (entry.id) {
       await base44.entities.MaintenanceProcedure.delete(entry.id);
-      await loadProcedures();
+      await loadData();
     } else {
       const updated = entries.filter((_, i) => i !== index);
       setEntries(updated);
@@ -104,8 +119,6 @@ export default function MaintenanceProcedures() {
     setDeleteConfirm(null);
     setLoading(false);
   };
-
-  const tails = [...new Set(procedures.map(p => p.aircraft_tail))];
 
   return (
     <div className="min-h-screen bg-gray-50 p-6" dir="rtl">
@@ -135,7 +148,7 @@ export default function MaintenanceProcedures() {
                 <SelectValue placeholder="בחר מספר זנב" />
               </SelectTrigger>
               <SelectContent>
-                {tails.map(tail => (
+                {allTails.map(tail => (
                   <SelectItem key={tail} value={tail}>{tail}</SelectItem>
                 ))}
                 <SelectItem value="new">+ מספר זנב חדש</SelectItem>
