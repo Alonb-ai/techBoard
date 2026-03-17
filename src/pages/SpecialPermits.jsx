@@ -5,16 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash2, Save, ArrowRight } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SpecialPermits() {
+  const navigate = useNavigate();
   const [permits, setPermits] = useState([]);
+  const [allTails, setAllTails] = useState([]);
   const [selectedTail, setSelectedTail] = useState("");
   const [filteredPermits, setFilteredPermits] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    loadPermits();
+    loadData();
     const urlParams = new URLSearchParams(window.location.search);
     const tail = urlParams.get('tail');
     if (tail) setSelectedTail(tail);
@@ -28,9 +30,23 @@ export default function SpecialPermits() {
     }
   }, [selectedTail, permits]);
 
-  const loadPermits = async () => {
-    const data = await base44.entities.SpecialPermit.list();
-    setPermits(data);
+  const loadData = async () => {
+    const [permitData, certs, comps, procs, configs] = await Promise.all([
+      base44.entities.SpecialPermit.list(),
+      base44.entities.DeliveryCertificate.list(),
+      base44.entities.InstalledComponent.list(),
+      base44.entities.MaintenanceProcedure.list(),
+      base44.entities.Configuration.list()
+    ]);
+    setPermits(permitData);
+    const tails = new Set([
+      ...permitData.map(p => p.aircraft_tail),
+      ...certs.map(c => c.aircraft_tail),
+      ...comps.map(c => c.aircraft_tail),
+      ...procs.map(p => p.aircraft_tail),
+      ...configs.map(c => c.aircraft_tail)
+    ]);
+    setAllTails([...tails].filter(Boolean).sort());
   };
 
   const handleAdd = () => {
@@ -54,7 +70,7 @@ export default function SpecialPermits() {
       filteredPermits[index] = created;
       setFilteredPermits([...filteredPermits]);
     }
-    await loadPermits();
+    await loadData();
     setLoading(false);
   };
 
@@ -62,7 +78,7 @@ export default function SpecialPermits() {
     const permit = filteredPermits[index];
     if (permit.id) {
       await base44.entities.SpecialPermit.delete(permit.id);
-      await loadPermits();
+      await loadData();
     } else {
       setFilteredPermits(filteredPermits.filter((_, i) => i !== index));
     }
@@ -74,7 +90,10 @@ export default function SpecialPermits() {
     setFilteredPermits(updated);
   };
 
-  const tails = [...new Set(permits.map(p => p.aircraft_tail))];
+  const tails = [...allTails];
+  if (selectedTail && selectedTail !== "new" && !tails.includes(selectedTail)) {
+    tails.push(selectedTail);
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6" dir="rtl">
@@ -99,7 +118,10 @@ export default function SpecialPermits() {
           </div>
 
           <div className="flex gap-3">
-            <Select value={selectedTail} onValueChange={setSelectedTail}>
+            <Select value={selectedTail} onValueChange={(val) => {
+              setSelectedTail(val);
+              if (val !== "new") navigate(`/SpecialPermits?tail=${val}`);
+            }}>
               <SelectTrigger className="w-60">
                 <SelectValue placeholder="בחר מספר זנב" />
               </SelectTrigger>
