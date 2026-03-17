@@ -20,6 +20,21 @@ function calcFlightDuration(toTime, landingTime) {
   return `${hours}:${String(mins).padStart(2, '0')}`;
 }
 
+function calcTotalFlightHours(formData) {
+  let totalMin = 0;
+  for (let i = 1; i <= 3; i++) {
+    const duration = calcFlightDuration(formData[`flight_${i}_to_time`], formData[`flight_${i}_landing_time`]);
+    if (duration) {
+      const [h, m] = duration.split(':').map(Number);
+      totalMin += h * 60 + m;
+    }
+  }
+  if (totalMin === 0) return null;
+  const hours = Math.floor(totalMin / 60);
+  const mins = totalMin % 60;
+  return `${hours}:${String(mins).padStart(2, '0')}`;
+}
+
 export default function DeliveryCertificate() {
   const [certificates, setCertificates] = useState([]);
   const [selectedTail, setSelectedTail] = useState("");
@@ -463,19 +478,19 @@ export default function DeliveryCertificate() {
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Flight #1 Hours</label>
-                    <Input value={formData.flight_1_hours || ""} onChange={(e) => setFormData({...formData, flight_1_hours: e.target.value})} />
+                    <Input value={calcFlightDuration(formData.flight_1_to_time, formData.flight_1_landing_time) || "-"} readOnly className="bg-gray-50" />
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Flight #2 Hours</label>
-                    <Input value={formData.flight_2_hours || ""} onChange={(e) => setFormData({...formData, flight_2_hours: e.target.value})} />
+                    <Input value={calcFlightDuration(formData.flight_2_to_time, formData.flight_2_landing_time) || "-"} readOnly className="bg-gray-50" />
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Flight #3 Hours</label>
-                    <Input value={formData.flight_3_hours || ""} onChange={(e) => setFormData({...formData, flight_3_hours: e.target.value})} />
+                    <Input value={calcFlightDuration(formData.flight_3_to_time, formData.flight_3_landing_time) || "-"} readOnly className="bg-gray-50" />
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Overall Flight Hours</label>
-                    <Input value={formData.overall_flight_hours || ""} onChange={(e) => setFormData({...formData, overall_flight_hours: e.target.value})} />
+                    <Input value={calcTotalFlightHours(formData) || "-"} readOnly className="bg-gray-50 font-bold" />
                   </div>
                   <div>
                     <label className="block text-xs mb-1">Overall Engine Hours</label>
