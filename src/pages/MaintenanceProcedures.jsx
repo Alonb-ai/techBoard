@@ -131,7 +131,7 @@ export default function MaintenanceProcedures() {
             {entries.map((entry, idx) => (
               <div key={idx} className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold">#{entry.entry_number} Date & Name</h3>
+                  <h3 className="text-lg font-bold">Malfunction #{entry.entry_number}</h3>
                   <Button onClick={() => handleSave(idx)} disabled={loading} className="bg-green-600 hover:bg-green-700 gap-2">
                     <Save className="w-4 h-4" />
                     שמור
