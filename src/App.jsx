@@ -14,6 +14,7 @@ import MaintenanceProcedures from './pages/MaintenanceProcedures';
 import Configuration from './pages/Configuration';
 import Files from './pages/Files';
 import WeightConfig from './pages/WeightConfig';
+import HomePage from './pages/HomePage';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -49,7 +50,8 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/UAVTailNumber" replace />} />
+      <Route path="/" element={<Navigate to="/Home" replace />} />
+      <Route path="/Home" element={<HomePage />} />
       <Route path="/UAVTailNumber" element={<UAVTailNumber />} />
       <Route path="/DeliveryCertificate" element={<DeliveryCertificate />} />
       <Route path="/InstalledComponents" element={<InstalledComponents />} />
