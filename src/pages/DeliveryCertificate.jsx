@@ -63,7 +63,11 @@ export default function DeliveryCertificate() {
 
   useEffect(() => {
     if (selectedTail) {
-      setFilteredCerts(certificates.filter(c => c.aircraft_tail === selectedTail));
+      setFilteredCerts(
+        certificates
+          .filter(c => c.aircraft_tail === selectedTail)
+          .sort((a, b) => (a.pre_flight_date || "").localeCompare(b.pre_flight_date || ""))
+      );
     } else {
       setFilteredCerts([]);
     }
