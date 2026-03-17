@@ -187,10 +187,12 @@ export default function DeliveryCertificate() {
                     <TableCell>{cert.pre_flight_date ? cert.pre_flight_date.split('-').reverse().join('/') : "ללא תאריך"}</TableCell>
                     <TableCell>{cert.technician_name_pre || "-"}</TableCell>
                     <TableCell>{(() => {
-                      const otherCerts = certificates.filter(c => c.aircraft_tail === cert.aircraft_tail && c.id !== cert.id);
-                      const prevMin = otherCerts.reduce((sum, c) => sum + calcCertFlightMinutes(c), 0);
-                      const currentMin = calcCertFlightMinutes(cert);
-                      const totalMin = prevMin + currentMin;
+                      const sameTailCerts = certificates
+                        .filter(c => c.aircraft_tail === cert.aircraft_tail)
+                        .sort((a, b) => (a.pre_flight_date || "").localeCompare(b.pre_flight_date || ""));
+                      const certIndex = sameTailCerts.findIndex(c => c.id === cert.id);
+                      const upToCerts = sameTailCerts.slice(0, certIndex + 1);
+                      const totalMin = upToCerts.reduce((sum, c) => sum + calcCertFlightMinutes(c), 0);
                       if (totalMin === 0) return "-";
                       return `${Math.floor(totalMin / 60)}:${String(totalMin % 60).padStart(2, '0')}`;
                     })()}</TableCell>
@@ -486,8 +488,12 @@ export default function DeliveryCertificate() {
                   <div>
                     <label className="block text-xs mb-1">Previous Flight Hours</label>
                     <Input value={(() => {
-                      const otherCerts = certificates.filter(c => c.aircraft_tail === formData.aircraft_tail && c.id !== formData.id);
-                      const totalMin = otherCerts.reduce((sum, c) => sum + calcCertFlightMinutes(c), 0);
+                      const sameTailCerts = certificates
+                        .filter(c => c.aircraft_tail === formData.aircraft_tail)
+                        .sort((a, b) => (a.pre_flight_date || "").localeCompare(b.pre_flight_date || ""));
+                      const certIndex = sameTailCerts.findIndex(c => c.id === formData.id);
+                      const beforeCerts = certIndex > 0 ? sameTailCerts.slice(0, certIndex) : [];
+                      const totalMin = beforeCerts.reduce((sum, c) => sum + calcCertFlightMinutes(c), 0);
                       if (totalMin === 0) return "-";
                       return `${Math.floor(totalMin / 60)}:${String(totalMin % 60).padStart(2, '0')}`;
                     })()} readOnly className="bg-gray-50" />
