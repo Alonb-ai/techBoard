@@ -1,0 +1,155 @@
+{
+  "name": "Configuration",
+  "type": "object",
+  "properties": {
+    "aircraft_tail": {
+      "type": "string",
+      "description": "Aircraft tail number"
+    },
+    "mcu_version": {
+      "type": "string",
+      "description": "MCU Version"
+    },
+    "mcu_hpsb": {
+      "type": "string",
+      "description": "MCU HPSB"
+    },
+    "mcu_date": {
+      "type": "string",
+      "format": "date",
+      "description": "MCU Date"
+    },
+    "mcu_technician": {
+      "type": "string",
+      "description": "MCU Technician"
+    },
+    "rsb_version": {
+      "type": "string",
+      "description": "RSB Version"
+    },
+    "rsb_hpsb": {
+      "type": "string",
+      "description": "RSB HPSB"
+    },
+    "rsb_date": {
+      "type": "string",
+      "format": "date",
+      "description": "RSB Date"
+    },
+    "rsb_technician": {
+      "type": "string",
+      "description": "RSB Technician"
+    },
+    "avionics_box_version": {
+      "type": "string",
+      "description": "Avionics Box Version"
+    },
+    "avionics_box_date": {
+      "type": "string",
+      "description": "Avionics Box Date"
+    },
+    "avionics_box_technician": {
+      "type": "string",
+      "description": "Avionics Box Technician"
+    },
+    "av_mcu_version": {
+      "type": "string",
+      "description": "AV MCU Version"
+    },
+    "av_mcu_date": {
+      "type": "string",
+      "description": "AV MCU Date"
+    },
+    "av_mcu_technician": {
+      "type": "string",
+      "description": "AV MCU Technician"
+    },
+    "fpga_version": {
+      "type": "string",
+      "description": "FPGA Version"
+    },
+    "fpga_date": {
+      "type": "string",
+      "description": "FPGA Date"
+    },
+    "fpga_technician": {
+      "type": "string",
+      "description": "FPGA Technician"
+    },
+    "pilot_version": {
+      "type": "string",
+      "description": "Pilot Version"
+    },
+    "pilot_date": {
+      "type": "string",
+      "description": "Pilot Date"
+    },
+    "pilot_technician": {
+      "type": "string",
+      "description": "Pilot Technician"
+    },
+    "params_file_version": {
+      "type": "string",
+      "description": "Params File Version"
+    },
+    "params_file_date": {
+      "type": "string",
+      "description": "Params File Date"
+    },
+    "params_file_technician": {
+      "type": "string",
+      "description": "Params File Technician"
+    },
+    "fmc_version": {
+      "type": "string",
+      "description": "FMC Version"
+    },
+    "fmc_date": {
+      "type": "string",
+      "description": "FMC Date"
+    },
+    "fmc_technician": {
+      "type": "string",
+      "description": "FMC Technician"
+    },
+    "ardu_params_version": {
+      "type": "string",
+      "description": "Ardu Params Version"
+    },
+    "ardu_params_date": {
+      "type": "string",
+      "description": "Ardu Params Date"
+    },
+    "ardu_params_technician": {
+      "type": "string",
+      "description": "Ardu Params Technician"
+    },
+    "rsb_psb": {
+      "type": "string",
+      "description": "RSB PSB"
+    },
+    "mcu_hpsb_field": {
+      "type": "string",
+      "description": "MCU HPSB Field"
+    },
+    "component": {
+      "type": "string",
+      "description": "Component"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version"
+    },
+    "date": {
+      "type": "string",
+      "description": "Date"
+    },
+    "technician": {
+      "type": "string",
+      "description": "Technician"
+    }
+  },
+  "required": [
+    "aircraft_tail"
+  ]
+}

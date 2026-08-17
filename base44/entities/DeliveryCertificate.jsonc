@@ -1,0 +1,273 @@
+{
+  "name": "DeliveryCertificate",
+  "type": "object",
+  "properties": {
+    "aircraft_tail": {
+      "type": "string",
+      "description": "Aircraft tail number"
+    },
+    "r_boom": {
+      "type": "string",
+      "description": "R Boom"
+    },
+    "l_boom": {
+      "type": "string",
+      "description": "L Boom"
+    },
+    "elevator": {
+      "type": "string",
+      "description": "Elevator"
+    },
+    "l_rudder": {
+      "type": "string",
+      "description": "L Rudder"
+    },
+    "r_rudder": {
+      "type": "string",
+      "description": "R Rudder"
+    },
+    "r_wing": {
+      "type": "string",
+      "description": "R Wing"
+    },
+    "l_wing": {
+      "type": "string",
+      "description": "L Wing"
+    },
+    "main_wing": {
+      "type": "string",
+      "description": "Main Wing"
+    },
+    "fuel_qty_pre": {
+      "type": "string",
+      "description": "Fuel QTY pre-flight"
+    },
+    "technician_name_pre": {
+      "type": "string",
+      "description": "Technician Name pre-flight"
+    },
+    "pre_flight_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Pre Flight Date"
+    },
+    "flight_1_to_time": {
+      "type": "string",
+      "description": "Flight 1 T/O Time"
+    },
+    "flight_1_landing_time": {
+      "type": "string",
+      "description": "Flight 1 Landing Time"
+    },
+    "flight_1_payload": {
+      "type": "string",
+      "description": "Flight 1 Payload"
+    },
+    "flight_1_vtol_battery_1": {
+      "type": "string",
+      "description": "Flight 1 VTOL Battery 1"
+    },
+    "flight_1_vtol_battery_2": {
+      "type": "string",
+      "description": "Flight 1 VTOL Battery 2"
+    },
+    "flight_1_permits": {
+      "type": "boolean",
+      "description": "Flight 1 Permits"
+    },
+    "flight_1_goal": {
+      "type": "string",
+      "description": "Flight 1 Goal"
+    },
+    "flight_1_turn_around": {
+      "type": "boolean",
+      "description": "Flight 1 Turn Around"
+    },
+    "flight_1_after_flight": {
+      "type": "boolean",
+      "description": "Flight 1 After Flight"
+    },
+    "flight_1_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Flight 1 Date"
+    },
+    "flight_1_operator_name": {
+      "type": "string",
+      "description": "Flight 1 Operator Name"
+    },
+    "flight_1_technician_name": {
+      "type": "string",
+      "description": "Flight 1 Technician Name"
+    },
+    "flight_1_turn_around_signature": {
+      "type": "string",
+      "description": "Flight 1 Turn Around Signature (base64)"
+    },
+    "flight_1_after_flight_signature": {
+      "type": "string",
+      "description": "Flight 1 After Flight Signature (base64)"
+    },
+    "flight_2_to_time": {
+      "type": "string",
+      "description": "Flight 2 T/O Time"
+    },
+    "flight_2_landing_time": {
+      "type": "string",
+      "description": "Flight 2 Landing Time"
+    },
+    "flight_2_payload": {
+      "type": "string",
+      "description": "Flight 2 Payload"
+    },
+    "flight_2_vtol_battery_1": {
+      "type": "string",
+      "description": "Flight 2 VTOL Battery 1"
+    },
+    "flight_2_vtol_battery_2": {
+      "type": "string",
+      "description": "Flight 2 VTOL Battery 2"
+    },
+    "flight_2_permits": {
+      "type": "boolean",
+      "description": "Flight 2 Permits"
+    },
+    "flight_2_goal": {
+      "type": "string",
+      "description": "Flight 2 Goal"
+    },
+    "flight_2_turn_around": {
+      "type": "boolean",
+      "description": "Flight 2 Turn Around"
+    },
+    "flight_2_after_flight": {
+      "type": "boolean",
+      "description": "Flight 2 After Flight"
+    },
+    "flight_2_fuel_qty": {
+      "type": "string",
+      "description": "Flight 2 Fuel QTY"
+    },
+    "flight_2_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Flight 2 Date"
+    },
+    "flight_2_operator_name": {
+      "type": "string",
+      "description": "Flight 2 Operator Name"
+    },
+    "flight_2_technician_name": {
+      "type": "string",
+      "description": "Flight 2 Technician Name"
+    },
+    "flight_2_turn_around_signature": {
+      "type": "string",
+      "description": "Flight 2 Turn Around Signature (base64)"
+    },
+    "flight_2_after_flight_signature": {
+      "type": "string",
+      "description": "Flight 2 After Flight Signature (base64)"
+    },
+    "flight_3_to_time": {
+      "type": "string",
+      "description": "Flight 3 T/O Time"
+    },
+    "flight_3_landing_time": {
+      "type": "string",
+      "description": "Flight 3 Landing Time"
+    },
+    "flight_3_payload": {
+      "type": "string",
+      "description": "Flight 3 Payload"
+    },
+    "flight_3_vtol_battery_1": {
+      "type": "string",
+      "description": "Flight 3 VTOL Battery 1"
+    },
+    "flight_3_vtol_battery_2": {
+      "type": "string",
+      "description": "Flight 3 VTOL Battery 2"
+    },
+    "flight_3_permits": {
+      "type": "boolean",
+      "description": "Flight 3 Permits"
+    },
+    "flight_3_goal": {
+      "type": "string",
+      "description": "Flight 3 Goal"
+    },
+    "flight_3_turn_around": {
+      "type": "boolean",
+      "description": "Flight 3 Turn Around"
+    },
+    "flight_3_after_flight": {
+      "type": "boolean",
+      "description": "Flight 3 After Flight"
+    },
+    "flight_3_fuel_qty": {
+      "type": "string",
+      "description": "Flight 3 Fuel QTY"
+    },
+    "flight_3_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Flight 3 Date"
+    },
+    "flight_3_operator_name": {
+      "type": "string",
+      "description": "Flight 3 Operator Name"
+    },
+    "flight_3_technician_name": {
+      "type": "string",
+      "description": "Flight 3 Technician Name"
+    },
+    "flight_3_turn_around_signature": {
+      "type": "string",
+      "description": "Flight 3 Turn Around Signature (base64)"
+    },
+    "flight_3_after_flight_signature": {
+      "type": "string",
+      "description": "Flight 3 After Flight Signature (base64)"
+    },
+    "previous_flight_hours": {
+      "type": "string",
+      "description": "Previous Flight Hours"
+    },
+    "previous_engine_hours": {
+      "type": "string",
+      "description": "Previous Engine Hours"
+    },
+    "previous_flight_sorties": {
+      "type": "string",
+      "description": "Previous Flight Sorties"
+    },
+    "flight_1_hours": {
+      "type": "string",
+      "description": "Flight 1 Hours"
+    },
+    "flight_2_hours": {
+      "type": "string",
+      "description": "Flight 2 Hours"
+    },
+    "flight_3_hours": {
+      "type": "string",
+      "description": "Flight 3 Hours"
+    },
+    "overall_flight_hours": {
+      "type": "string",
+      "description": "Overall Flight Hours"
+    },
+    "overall_engine_hours": {
+      "type": "string",
+      "description": "Overall Engine Hours"
+    },
+    "overall_sorties": {
+      "type": "string",
+      "description": "Overall Sorties"
+    }
+  },
+  "required": [
+    "aircraft_tail"
+  ]
+}

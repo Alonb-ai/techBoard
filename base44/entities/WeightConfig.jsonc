@@ -1,0 +1,125 @@
+{
+  "name": "WeightConfig",
+  "type": "object",
+  "properties": {
+    "aircraft_tail": {
+      "type": "string",
+      "description": "Aircraft tail number"
+    },
+    "assignment": {
+      "type": "string",
+      "description": "Assignment"
+    },
+    "weighing_date": {
+      "type": "string",
+      "description": "Weighing date"
+    },
+    "empty_weight": {
+      "type": "string",
+      "description": "Empty weight"
+    },
+    "battery_position": {
+      "type": "string",
+      "description": "Battery position"
+    },
+    "e180_no_fuel_l": {
+      "type": "string",
+      "description": "E180 no fuel (L)"
+    },
+    "e180_no_weight_desc": {
+      "type": "string",
+      "description": "E180 no weight description"
+    },
+    "e180_no_fuel_kg": {
+      "type": "string",
+      "description": "E180 no fuel (kg)"
+    },
+    "e180_beacon_fuel_l": {
+      "type": "string",
+      "description": "E180 beacon fuel (L)"
+    },
+    "e180_beacon_weight_desc": {
+      "type": "string",
+      "description": "E180 beacon weight description"
+    },
+    "e180_beacon_fuel_kg": {
+      "type": "string",
+      "description": "E180 beacon fuel (kg)"
+    },
+    "tower_no_fuel_l": {
+      "type": "string",
+      "description": "Tower no fuel (L)"
+    },
+    "tower_no_weight_desc": {
+      "type": "string",
+      "description": "Tower no weight description"
+    },
+    "tower_no_fuel_kg": {
+      "type": "string",
+      "description": "Tower no fuel (kg)"
+    },
+    "tower_beacon_fuel_l": {
+      "type": "string",
+      "description": "Tower beacon fuel (L)"
+    },
+    "tower_beacon_weight_desc": {
+      "type": "string",
+      "description": "Tower beacon weight description"
+    },
+    "tower_beacon_fuel_kg": {
+      "type": "string",
+      "description": "Tower beacon fuel (kg)"
+    },
+    "xr_no_fuel_l": {
+      "type": "string",
+      "description": "XR no fuel (L)"
+    },
+    "xr_no_weight_desc": {
+      "type": "string",
+      "description": "XR no weight description"
+    },
+    "xr_no_fuel_kg": {
+      "type": "string",
+      "description": "XR no fuel (kg)"
+    },
+    "xr_beacon_fuel_l": {
+      "type": "string",
+      "description": "XR beacon fuel (L)"
+    },
+    "xr_beacon_weight_desc": {
+      "type": "string",
+      "description": "XR beacon weight description"
+    },
+    "xr_beacon_fuel_kg": {
+      "type": "string",
+      "description": "XR beacon fuel (kg)"
+    },
+    "e140_no_fuel_l": {
+      "type": "string",
+      "description": "E140 no fuel (L)"
+    },
+    "e140_no_weight_desc": {
+      "type": "string",
+      "description": "E140 no weight description"
+    },
+    "e140_no_fuel_kg": {
+      "type": "string",
+      "description": "E140 no fuel (kg)"
+    },
+    "e140_beacon_fuel_l": {
+      "type": "string",
+      "description": "E140 beacon fuel (L)"
+    },
+    "e140_beacon_weight_desc": {
+      "type": "string",
+      "description": "E140 beacon weight description"
+    },
+    "e140_beacon_fuel_kg": {
+      "type": "string",
+      "description": "E140 beacon fuel (kg)"
+    }
+  },
+  "required": [
+    "aircraft_tail"
+  ]
+}

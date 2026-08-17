@@ -1,0 +1,57 @@
+{
+  "name": "MaintenanceProcedure",
+  "type": "object",
+  "properties": {
+    "aircraft_tail": {
+      "type": "string",
+      "description": "Aircraft tail number"
+    },
+    "entry_number": {
+      "type": "number",
+      "description": "Entry number (1-7)"
+    },
+    "malfunction_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Malfunction Date"
+    },
+    "malfunction_name": {
+      "type": "string",
+      "description": "Malfunction Name"
+    },
+    "malfunction_description": {
+      "type": "string",
+      "description": "Malfunction Description"
+    },
+    "solution_description": {
+      "type": "string",
+      "description": "Solution Description"
+    },
+    "solution_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Solution Date"
+    },
+    "solution_name": {
+      "type": "string",
+      "description": "Solution Name"
+    },
+    "closing_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Closing Date"
+    },
+    "closing_name": {
+      "type": "string",
+      "description": "Closing Name"
+    },
+    "closing_signature": {
+      "type": "string",
+      "description": "Closing Signature"
+    }
+  },
+  "required": [
+    "aircraft_tail",
+    "entry_number"
+  ]
+}

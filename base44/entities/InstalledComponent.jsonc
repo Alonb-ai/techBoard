@@ -1,0 +1,232 @@
+{
+  "name": "InstalledComponent",
+  "type": "object",
+  "properties": {
+    "aircraft_tail": {
+      "type": "string",
+      "description": "Aircraft tail number"
+    },
+    "criterion": {
+      "type": "string",
+      "description": "Criterion"
+    },
+    "component": {
+      "type": "string",
+      "description": "Component name"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name"
+    },
+    "pn": {
+      "type": "string",
+      "description": "Part Number (P/N)"
+    },
+    "sn": {
+      "type": "string",
+      "description": "Serial Number (S/N)"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date"
+    },
+    "pn_1": {
+      "type": "string",
+      "description": "P/N 1"
+    },
+    "pn_2": {
+      "type": "string",
+      "description": "P/N 2"
+    },
+    "pn_3": {
+      "type": "string",
+      "description": "P/N 3"
+    },
+    "pn_4": {
+      "type": "string",
+      "description": "P/N 4"
+    },
+    "pn_5": {
+      "type": "string",
+      "description": "P/N 5"
+    },
+    "pn_6": {
+      "type": "string",
+      "description": "P/N 6"
+    },
+    "pn_7": {
+      "type": "string",
+      "description": "P/N 7"
+    },
+    "pn_8": {
+      "type": "string",
+      "description": "P/N 8"
+    },
+    "pn_9": {
+      "type": "string",
+      "description": "P/N 9"
+    },
+    "pn_10": {
+      "type": "string",
+      "description": "P/N 10"
+    },
+    "sn_1": {
+      "type": "string",
+      "description": "S/N 1"
+    },
+    "sn_2": {
+      "type": "string",
+      "description": "S/N 2"
+    },
+    "sn_3": {
+      "type": "string",
+      "description": "S/N 3"
+    },
+    "sn_4": {
+      "type": "string",
+      "description": "S/N 4"
+    },
+    "sn_5": {
+      "type": "string",
+      "description": "S/N 5"
+    },
+    "sn_6": {
+      "type": "string",
+      "description": "S/N 6"
+    },
+    "sn_7": {
+      "type": "string",
+      "description": "S/N 7"
+    },
+    "sn_8": {
+      "type": "string",
+      "description": "S/N 8"
+    },
+    "sn_9": {
+      "type": "string",
+      "description": "S/N 9"
+    },
+    "sn_10": {
+      "type": "string",
+      "description": "S/N 10"
+    },
+    "name_1": {
+      "type": "string",
+      "description": "Name 1"
+    },
+    "name_2": {
+      "type": "string",
+      "description": "Name 2"
+    },
+    "name_3": {
+      "type": "string",
+      "description": "Name 3"
+    },
+    "name_4": {
+      "type": "string",
+      "description": "Name 4"
+    },
+    "name_5": {
+      "type": "string",
+      "description": "Name 5"
+    },
+    "name_6": {
+      "type": "string",
+      "description": "Name 6"
+    },
+    "name_7": {
+      "type": "string",
+      "description": "Name 7"
+    },
+    "name_8": {
+      "type": "string",
+      "description": "Name 8"
+    },
+    "name_9": {
+      "type": "string",
+      "description": "Name 9"
+    },
+    "name_10": {
+      "type": "string",
+      "description": "Name 10"
+    },
+    "date_1": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 1"
+    },
+    "date_2": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 2"
+    },
+    "date_3": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 3"
+    },
+    "date_4": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 4"
+    },
+    "date_5": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 5"
+    },
+    "date_6": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 6"
+    },
+    "date_7": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 7"
+    },
+    "date_8": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 8"
+    },
+    "date_9": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 9"
+    },
+    "date_10": {
+      "type": "string",
+      "format": "date",
+      "description": "Date 10"
+    },
+    "name_field": {
+      "type": "string",
+      "description": "Name field"
+    },
+    "hsbs": {
+      "type": "string",
+      "description": "HSBS"
+    },
+    "daz_amplifier": {
+      "type": "string",
+      "description": "Daz Amplifier"
+    },
+    "major_tx": {
+      "type": "string",
+      "description": "Major Tx"
+    },
+    "version_amplifier": {
+      "type": "string",
+      "description": "Version Amplifier"
+    },
+    "escys_block": {
+      "type": "string",
+      "description": "ESCys Block"
+    }
+  },
+  "required": [
+    "aircraft_tail"
+  ]
+}

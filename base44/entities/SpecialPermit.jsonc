@@ -1,0 +1,30 @@
+{
+  "name": "SpecialPermit",
+  "type": "object",
+  "properties": {
+    "aircraft_tail": {
+      "type": "string",
+      "description": "Aircraft tail number"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name/Description"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Approved By"
+    },
+    "serial_number": {
+      "type": "string",
+      "description": "Serial number of permit"
+    }
+  },
+  "required": [
+    "aircraft_tail"
+  ]
+}
